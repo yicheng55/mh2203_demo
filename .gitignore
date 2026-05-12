@@ -1,32 +1,100 @@
-# Prerequisites
+# ============================================
+# Prerequisites & Dependencies
+# ============================================
 *.d
 *.bak
 *.TMP
+*.tmp
+*.temp
+*.log
 desktop.ini
 
+# ============================================
+# Build Output
+# ============================================
 # Object files
 #Objects/
 objects/
 objects
+**/OBJ/
+**/obj/
+**/Objects/
 *.o
 *.ko
 *.obj
+objects/
+objects
+
+# Compilation artifacts
 *.crf
 *.dep
-*.sct
-# Added-for
 *.__i
+*.coproj
+*.elf
+*.axf
+*.lnp
+*.out
+
+# Hex & Binary files
 *.hex
+*.bin
 *.htm
 
 # Linker output
 listings/
 listings
+**/List/
+**/LIST/
+**/Listings/
+**/listing/
 *.lst
 *.map
 *.exp
+*.txt
+listings/
+listings
 
-#mdk
+# Build directories
+build/
+dist/
+Debug/
+Release/
+
+# ============================================
+# IDE & Editor Files
+# ============================================
+# IAR Embedded Workbench
+*.eww
+*.ewp
+*.ewd
+*.ewl
+*.ewo
+*.lib
+*.pbd
+*.browse
+settings/
+
+# Keil MDK / uVision
+*.uvproj
+*.uvprojx
+*.scvd
+*.sct
 *.user1
 *.joseph
 *.uvoptx
+*.uvguix.*
+*.uvgui.*
+
+# IAR user files
+*.ewd
+*.ewt
+
+# Build outputs
+**/Debug/
+**/Release/
+**/Output/
+**/Build/
+
+# VS Code / Visual Studio workspace settings
+.vscode/
+.vs/
