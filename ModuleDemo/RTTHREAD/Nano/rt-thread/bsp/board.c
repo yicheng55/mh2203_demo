@@ -1,0 +1,142 @@
+/*
+ * Copyright (c) 2006-2019, RT-Thread Development Team
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2017-07-24     Tanek        the first version
+ * 2018-11-12     Ernest Chen  modify copyright
+ */
+ 
+#include <stdint.h>
+#include <rthw.h>
+#include <rtthread.h>
+
+#define _SCB_BASE       (0xE000E010UL)
+#define _SYSTICK_CTRL   (*(rt_uint32_t *)(_SCB_BASE + 0x0))
+#define _SYSTICK_LOAD   (*(rt_uint32_t *)(_SCB_BASE + 0x4))
+#define _SYSTICK_VAL    (*(rt_uint32_t *)(_SCB_BASE + 0x8))
+#define _SYSTICK_CALIB  (*(rt_uint32_t *)(_SCB_BASE + 0xC))
+#define _SYSTICK_PRI    (*(rt_uint8_t  *)(0xE000ED23UL))
+
+static uint32_t _SysTick_Config(rt_uint32_t ticks)
+{
+    if ((ticks - 1) > 0xFFFFFF)
+    {
+        return 1;
+    }
+    
+    _SYSTICK_LOAD = ticks - 1; 
+    _SYSTICK_PRI = 0xFF;
+    _SYSTICK_VAL  = 0;
+    _SYSTICK_CTRL = 0x07;  
+    
+    return 0;
+}
+
+#if defined(RT_USING_USER_MAIN) && defined(RT_USING_HEAP)
+#define RT_HEAP_SIZE 1024
+static uint32_t rt_heap[RT_HEAP_SIZE];     // heap default size: 4K(1024 * 4)
+RT_WEAK void *rt_heap_begin_get(void)
+{
+    return rt_heap;
+}
+
+RT_WEAK void *rt_heap_end_get(void)
+{
+    return rt_heap + RT_HEAP_SIZE;
+}
+#endif
+
+#include "mh22xx.h"
+
+void RCC_ClkConfiguration(void)
+{
+#if 1	
+	RCC_DeInit();
+
+	RCC_HSEConfig(RCC_HSE_ON);
+	while(RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);
+	
+	RCC_PLLCmd(DISABLE);
+	
+	FLASH_SetLatency(FLASH_Latency_2);
+	
+	RCC_PLLConfig(RCC_PLLSource_HSE_Div1,RCC_PLLMul_27);
+	
+	RCC_PLLCmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
+	
+	RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+	
+	RCC_HCLKConfig(RCC_SYSCLK_Div1);
+	RCC_PCLK1Config(RCC_HCLK_Div2);
+	RCC_PCLK2Config(RCC_HCLK_Div1);
+	
+	RCC_LSICmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);
+	RCC_HSICmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+#endif
+
+#if 0
+	RCC_DeInit();
+
+	RCC_HSICmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+	
+	RCC_PLLCmd(DISABLE);
+	
+	FLASH_SetLatency(FLASH_Latency_2);
+	
+	RCC_PLLConfig(RCC_PLLSource_HSI_Div1,RCC_PLLMul_27);
+	
+	RCC_PLLCmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
+	
+	RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+	
+	RCC_HCLKConfig(RCC_SYSCLK_Div1);
+	RCC_PCLK1Config(RCC_HCLK_Div2);
+	RCC_PCLK2Config(RCC_HCLK_Div1);
+	
+	RCC_LSICmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);
+#endif
+
+}
+
+/**
+ * This function will initial your board.
+ */
+void rt_hw_board_init()
+{
+	RCC_ClocksTypeDef clocks;
+	
+	RCC_ClkConfiguration();
+	RCC_GetClocksFreq(&clocks);
+    
+    /* System Tick Configuration */
+    _SysTick_Config(clocks.HCLK_Frequency / RT_TICK_PER_SECOND);
+
+    /* Call components board initial (use INIT_BOARD_EXPORT()) */
+#ifdef RT_USING_COMPONENTS_INIT
+    rt_components_board_init();
+#endif
+
+#if defined(RT_USING_USER_MAIN) && defined(RT_USING_HEAP)
+    rt_system_heap_init(rt_heap_begin_get(), rt_heap_end_get());
+#endif
+}
+
+void SysTick_Handler(void)
+{
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    rt_tick_increase();
+
+    /* leave interrupt */
+    rt_interrupt_leave();
+}

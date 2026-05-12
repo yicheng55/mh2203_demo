@@ -1,0 +1,32 @@
+# Prerequisites
+*.d
+*.bak
+*.TMP
+desktop.ini
+
+# Object files
+#Objects/
+objects/
+objects
+*.o
+*.ko
+*.obj
+*.crf
+*.dep
+*.sct
+# Added-for
+*.__i
+*.hex
+*.htm
+
+# Linker output
+listings/
+listings
+*.lst
+*.map
+*.exp
+
+#mdk
+*.user1
+*.joseph
+*.uvoptx

@@ -1,0 +1,297 @@
+#include "mh22xx.h"
+#include "bsp_sdio_sdcard.h"
+#include "sdio_test.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "delay.h"
+
+#include "malloc.h"
+#include "ff.h"
+#include "exfuns.h"
+#include "piclib.h"
+#include "math.h"
+#include "Spi_Base.h"
+
+#define PICTUREAUTO			0
+
+void USART_Config(uint32_t bound);
+uint8_t GetCmd(void);
+
+#define PRINTF_LOG 	printf
+
+USART_TypeDef* USART_TEST = USART1;
+void UART_Configuration(uint32_t bound);
+
+
+_lcd_dev lcddev;
+extern uint16_t LCD_X_LENGTH;
+extern uint16_t LCD_Y_LENGTH;
+void RCC_ClkConfiguration(void)
+{
+    RCC_DeInit();
+
+    RCC_HSEConfig(RCC_HSE_ON);
+    while(RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);
+
+    RCC_PLLCmd(DISABLE);
+
+    FLASH_SetLatency(FLASH_Latency_2);
+
+    RCC_PLLConfig(RCC_PLLSource_HSE_Div1,RCC_PLLMul_27);
+
+    RCC_PLLCmd(ENABLE);
+    while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
+
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+
+    RCC_HCLKConfig(RCC_SYSCLK_Div1);
+    RCC_PCLK1Config(RCC_HCLK_Div2);
+    RCC_PCLK2Config(RCC_HCLK_Div1);
+
+    RCC_LSICmd(ENABLE);
+    while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);
+    RCC_HSICmd(ENABLE);
+    while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+}
+
+//得到path路径下,目标文件的总个数
+//path:路径
+//返回值:总有效文件数
+u16 pic_get_tnum(u8 *path)
+{
+    u8 res;
+    u16 rval=0;
+    DIR tdir;	 		//临时目录
+    FILINFO tfileinfo;	//临时文件信息
+    u8 *fn;
+    res=f_opendir(&tdir,(const TCHAR*)path); 	//打开目录
+    tfileinfo.lfsize=_MAX_LFN*2+1;				//长文件名最大长度
+    tfileinfo.lfname=mymalloc(SRAMIN,tfileinfo.lfsize);//为长文件缓存区分配内存
+    if(res==FR_OK&&tfileinfo.lfname!=NULL)
+    {
+        while(1)//查询总的有效文件数
+        {
+            res=f_readdir(&tdir,&tfileinfo);       		//读取目录下的一个文件
+            if(res!=FR_OK||tfileinfo.fname[0]==0)break;	//错误了/到末尾了,退出
+            fn=(u8*)(*tfileinfo.lfname?tfileinfo.lfname:tfileinfo.fname);
+            res=f_typetell(fn);
+            if((res&0XF0)==0X50)//取高四位,看看是不是图片文件
+            {
+                rval++;//有效文件数增加1
+            }
+        }
+    }
+    return rval;
+}
+
+int main(void)
+{
+    u8 res;
+    DIR picdir;	 		//图片目录
+    FILINFO picfileinfo;//文件信息
+    u8 *fn;   			//长文件名
+    u8 *pname;			//带路径的文件名
+    u16 totpicnum; 		//图片文件总数
+    u16 curindex;		//图片当前索引
+    u8 key;				//键值
+    u8 pause=0;			//暂停标记
+    u8 t;
+    u16 temp;
+    u16 *picindextbl;	//图片索引表
+
+    uint8_t cmd = 0;
+    RCC_ClocksTypeDef clocks;
+
+    RCC_ClkConfiguration();
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC,ENABLE);
+    Delay_Init();
+    UART_Configuration(115200);
+    RCC_GetClocksFreq(&clocks);
+
+    PRINTF_LOG("\n");
+    PRINTF_LOG("SYSCLK: %3.1fMhz, HCLK: %3.1fMhz, PCLK1: %3.1fMhz, PCLK2: %3.1fMhz, ADCCLK: %3.1fMhz\n", \
+               (float)clocks.SYSCLK_Frequency/1000000, (float)clocks.HCLK_Frequency/1000000, \
+               (float)clocks.PCLK1_Frequency/1000000, (float)clocks.PCLK2_Frequency / 1000000, (float)clocks.ADCCLK_Frequency / 1000000);
+
+    PRINTF_LOG("ST7796_320x480 4Inch SDIO Decode Show Test.\n");
+    PRINTF_LOG("+ : 显示下一张素材\n");
+    PRINTF_LOG("- : 显示上一张素材\n");
+
+    ST7796_Init();
+
+    lcddev.id = 0X1234;
+    lcddev.width=ST7796_LESS_PIXEL;
+    lcddev.height=ST7796_MORE_PIXEL;
+    lcddev.dir = 0;
+    lcddev.wramcmd = 0x2c;
+    lcddev.setxcmd = 0x2a;
+    lcddev.setycmd = 0x2b;
+
+    my_mem_init(SRAMIN);		//初始化内部内存池
+    exfuns_init();				//为fatfs相关变量申请内存
+    f_mount(fs[0],"0:",1); 		//挂载SD卡
+    f_mount(fs[1],"1:",1); 		//挂载FLASH.
+    while(f_opendir(&picdir,"0:/PICTURE"))//打开图片文件夹
+    {
+        PRINTF_LOG("PICTURE文件夹错误!\n");
+        Delay_Ms(200);
+        ST7796_Clear(0,0,LCD_X_LENGTH,LCD_Y_LENGTH);	/* 清屏，显示全黑 */
+        Delay_Ms(200);
+    }
+
+    totpicnum=pic_get_tnum("0:/PICTURE"); //得到总有效文件数
+    while(totpicnum==NULL)//图片文件为0
+    {
+        PRINTF_LOG("没有图片文件!\n");
+        Delay_Ms(200);
+        ST7796_Clear(0,0,LCD_X_LENGTH,LCD_Y_LENGTH);	/* 清屏，显示全黑 */
+        Delay_Ms(200);
+    }
+    picfileinfo.lfsize=_MAX_LFN*2+1;						//长文件名最大长度
+    picfileinfo.lfname=mymalloc(SRAMIN,picfileinfo.lfsize);	//为长文件缓存区分配内存
+    pname=mymalloc(SRAMIN,picfileinfo.lfsize);				//为带路径的文件名分配内存
+    picindextbl=mymalloc(SRAMIN,2*totpicnum);				//申请2*totpicnum个字节的内存,用于存放图片索引
+    while(picfileinfo.lfname==NULL||pname==NULL||picindextbl==NULL)//内存分配出错
+    {
+        PRINTF_LOG("内存分配失败!\n");
+        Delay_Ms(200);
+        ST7796_Clear(0,0,LCD_X_LENGTH,LCD_Y_LENGTH);	/* 清屏，显示全黑 */
+        Delay_Ms(200);
+    }
+    //记录索引
+    res=f_opendir(&picdir,"0:/PICTURE"); //打开目录
+    if(res==FR_OK)
+    {
+        curindex=0;//当前索引为0
+        while(1)//全部查询一遍
+        {
+            temp=picdir.index;								//记录当前index
+            res=f_readdir(&picdir,&picfileinfo);       		//读取目录下的一个文件
+            if(res!=FR_OK||picfileinfo.fname[0]==0)break;	//错误了/到末尾了,退出
+            fn=(u8*)(*picfileinfo.lfname?picfileinfo.lfname:picfileinfo.fname);
+            res=f_typetell(fn);
+            if((res&0XF0)==0X50)//取高四位,看看是不是图片文件
+            {
+                picindextbl[curindex]=temp;//记录索引
+                curindex++;
+            }
+        }
+    }
+    PRINTF_LOG("开始显示...\n");
+    Delay_Ms(1500);
+    piclib_init();										//初始化画图
+    curindex=0;											//从0开始显示
+    res=f_opendir(&picdir,(const TCHAR*)"0:/PICTURE"); 	//打开目录
+
+    while(res==FR_OK)//打开成功
+    {
+        dir_sdi(&picdir,picindextbl[curindex]);			//改变当前目录索引
+        res=f_readdir(&picdir,&picfileinfo);       		//读取目录下的一个文件
+        if(res!=FR_OK||picfileinfo.fname[0]==0)break;	//错误了/到末尾了,退出
+        fn=(u8*)(*picfileinfo.lfname?picfileinfo.lfname:picfileinfo.fname);
+        strcpy((char*)pname,"0:/PICTURE/");				//复制路径(目录)
+        strcat((char*)pname,(const char*)fn);  			//将文件名接在后面
+        ST7796_Clear(0,0,LCD_X_LENGTH,LCD_Y_LENGTH);	/* 清屏，显示全黑 */
+			  GPIOA->BSRR|=1<<11;
+        ai_load_picfile(pname,0,0,lcddev.width,lcddev.height,1);//显示图片
+			  GPIOA->BRR|=1<<11;
+        t=0;
+        while(1)
+        {
+            if(PICTUREAUTO == 1)
+            {
+                curindex++;
+                if(curindex>=totpicnum)curindex=0;//到末尾的时候,自动从头开始
+                break;
+            }
+            else
+            {
+                cmd = GetCmd();
+
+                if(cmd == '-')//上一张
+                {
+                    if(curindex)curindex--;
+                    else curindex=totpicnum-1;
+                    break;
+                }
+                if(cmd == '+')//下一张
+                {
+                    curindex++;
+                    if(curindex>=totpicnum)curindex=0;//到末尾的时候,自动从头开始
+                    break;
+                }
+            }
+        }
+        res=0;
+    }
+    myfree(SRAMIN,picfileinfo.lfname);	//释放内存
+    myfree(SRAMIN,pname);				//释放内存
+    myfree(SRAMIN,picindextbl);			//释放内存
+}
+
+uint8_t GetCmd(void)
+{
+    uint8_t tmp = 0;
+
+    if(USART_GetFlagStatus(USART1,USART_FLAG_RXNE))
+    {
+        tmp = USART_ReceiveData(USART1);
+    }
+    return tmp;
+}
+
+void UART_Configuration(uint32_t bound)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    USART_InitTypeDef USART_InitStructure;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1,ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+		GPIOA->BRR|=1<<11;
+
+    USART_InitStructure.USART_BaudRate = bound;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+
+    USART_Init(USART_TEST, &USART_InitStructure);
+    USART_Cmd(USART_TEST, ENABLE);
+}
+
+
+int SER_PutChar (int ch)
+{
+    while(!USART_GetFlagStatus(USART_TEST,USART_FLAG_TC));
+    USART_SendData(USART_TEST, (uint8_t) ch);
+
+    return ch;
+}
+
+int fputc(int c, FILE *f)
+{
+    /* Place your implementation of fputc here */
+    /* e.g. write a character to the USART */
+    if (c == '\n')
+    {
+        SER_PutChar('\r');
+    }
+    return (SER_PutChar(c));
+}
+

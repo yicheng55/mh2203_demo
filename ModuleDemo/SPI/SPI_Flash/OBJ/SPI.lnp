@@ -1,0 +1,18 @@
+--cpu Cortex-M3
+"..\obj\main.o"
+"..\obj\mh22xx_it.o"
+"..\obj\system_mh22xx.o"
+"..\obj\delay.o"
+"..\obj\w25qxx.o"
+"..\obj\core_cm3.o"
+"..\obj\startup_mh22xx.o"
+"..\obj\misc.o"
+"..\obj\mh22xx_rcc.o"
+"..\obj\mh22xx_gpio.o"
+"..\obj\mh22xx_usart.o"
+"..\obj\mh22xx_spi.o"
+"..\obj\mh22xx_flash.o"
+--library_type=microlib --strict --scatter "..\OBJ\SPI.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\SPI.map" -o ..\OBJ\SPI.axf
