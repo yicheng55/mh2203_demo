@@ -59,19 +59,18 @@ int main(void)
 	}
 }
 
-
 void RCC_ClkConfiguration(void)
 {
 	RCC_DeInit();
 
-	RCC_HSEConfig(RCC_HSE_ON);
-	while(RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);
+	RCC_HSICmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
 	
 	RCC_PLLCmd(DISABLE);
 	
 	FLASH_SetLatency(FLASH_Latency_2);
 	
-	RCC_PLLConfig(RCC_PLLSource_HSE_Div1,RCC_PLLMul_27);
+	RCC_PLLConfig(RCC_PLLSource_HSI_Div1,RCC_PLLMul_27);
 	
 	RCC_PLLCmd(ENABLE);
 	while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
@@ -84,9 +83,35 @@ void RCC_ClkConfiguration(void)
 	
 	RCC_LSICmd(ENABLE);
 	while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);
-	RCC_HSICmd(ENABLE);
-	while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
 }
+
+//void RCC_ClkConfiguration(void)
+//{
+//	RCC_DeInit();
+
+//	RCC_HSEConfig(RCC_HSE_ON);
+//	while(RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);
+//	
+//	RCC_PLLCmd(DISABLE);
+//	
+//	FLASH_SetLatency(FLASH_Latency_2);
+//	
+//	RCC_PLLConfig(RCC_PLLSource_HSE_Div1,RCC_PLLMul_27);
+//	
+//	RCC_PLLCmd(ENABLE);
+//	while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
+//	
+//	RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+//	
+//	RCC_HCLKConfig(RCC_SYSCLK_Div1);
+//	RCC_PCLK1Config(RCC_HCLK_Div2);
+//	RCC_PCLK2Config(RCC_HCLK_Div1);
+//	
+//	RCC_LSICmd(ENABLE);
+//	while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);
+//	RCC_HSICmd(ENABLE);
+//	while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+//}
 
 
 void UART_Configuration(uint32_t bound)

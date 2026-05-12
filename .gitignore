@@ -34,6 +34,7 @@ objects
 *.axf
 *.lnp
 *.out
+*.dbgconfig
 
 # Hex & Binary files
 *.hex
