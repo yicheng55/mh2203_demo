@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0037)http://192.168.1.37/ini_fs_list.shtml, first -->
+<html xmlns="http://www.w3.org/1999/xhtml" style="padding:0px;">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+	<link rel="stylesheet" type="text/css" href="./ini_fs_list_files/style2.css">
+	<!--<meta http-equiv="refresh" content="10">-->
+<style>
+	html { overflow-x:hidden; }
+</style>
+</head>
+
+<body>
+<form method="get">
+<div class="top_content" style="width：auto; height:auto">
+<div class="top">
+</div>
+<table width="100%" border="0" bordercolor="#CCCCCC">
+<tbody>
+	<tr>
+	<!--<td height="18" class="gr"><div align="right">&nbsp;</div></td>-->
+	<td height="18" class="gr"><div align="right"> Module Name：</div></td>
+    <td height="18" class="gr"><div align="left"><b>   DM9051 Ethernet   </b></div></td>
+	</tr>
+<!--<tr><td> /logo.jpg </td></tr>
+<tr><td> /index.html </td></tr>
+<tr><td> /favicon.ico </td></tr>
+<tr><td> /404.html </td></tr>
+<tr><td> /ini_fs_list.shtml </td></tr>-->
+<!--%! file-list-cgi-->
+</tbody>
+</table>
+</div>
+</form>
+
+<div id="sidebar">
+<div id="unknow-ess">
+<div align="left">
+<ul>
+	<!--<li id="lia">Current IP Address：</li>
+		<li id="lib">Current Network of module</li>
+		<li id="lia">Remote IP/TX/RX：</li>
+		<li id="lib">IP of server or device connecting with module;reset for disconnect</li> 
+		<li id="lib">TX/RX:data volume that each server or device communicates with module;reset for disconnect</li>
+		<li id="lia">TX Count/RX Count：</li>
+		<li id="lib">a total of data volume that servers or devices communicate with module;reset for power off</li>
+		<li></li>-->
+%! file-list-cgi
+</ul>
+</div>
+</div>
+</div>
+<!--<div id="___biggo___c_dom" style="display: none;"></div>-->
+<table width="100%" border="0" bordercolor="#CCCCCC">
+<tbody>
+<tr><td> This is an example to </td></tr>
+<tr><td> use script html to </td></tr>
+<tr><td> browse all the file system files. </td></tr>
+<tr><td> These example home pages are as simple for demo the basic web server functions, </td></tr>
+<tr><td> In the main index html page there are some hyper links which are not exiat,  </td></tr>
+<tr><td> So they will be shown with a 404.html to demo for in case for somethings no more support. </td></tr>
+</tbody>
+</table>
+</body></html>

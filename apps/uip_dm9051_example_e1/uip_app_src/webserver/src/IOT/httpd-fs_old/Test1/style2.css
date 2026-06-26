@@ -1,0 +1,96 @@
+body {
+	text-align: center;
+	font: 12px Verdana;
+	color: black;
+	padding:0px;
+	margin:0px;
+}
+form{
+	width:535px;           
+	float:left;
+}
+
+#top_content{
+	border: 2px solid #888888;
+	margin:0;
+	padding:0px;
+}
+	
+#top{
+	background-color: #888888;
+}
+	
+
+.top_content{
+	height:100px;
+	border: 2px solid #0067AC;
+	margin-top:10px;
+}
+	.top_content div {
+		margin-top:0px;
+	}
+	.top_content ul li{
+		float:right;
+		list-style-type: none;
+		margin:10px 200px 5px 10px;
+	}
+	.top_content input{
+		vertical-align:middle;
+	}
+	.top_content ul{
+		margin:10px 0 0 0;
+		padding:0px;
+	}
+	
+.top{
+	background-color: #0067AC;
+	color: white;
+	font-size: 0.9em;
+	/*padding: 5px;*/
+}
+	.top p{
+		margin:0px;
+		height:25px;
+		line-height: 25px;
+	}
+.button{
+	margin-top:10px;
+}
+#sidebar {
+	width: 141px;
+	float: right;
+	background-color:#0067AC;
+	color:white;
+	padding:0px;                     
+}
+	#sidebar ul {
+		list-style-type: none;
+		margin:0px;
+		height:31px;
+		padding:0px;
+	}
+		#sidebar ul li {
+			font-size: 1.0em;
+			padding-top:8px;
+		}
+		#sidebar div {
+			background-color:#0067AC;
+			border-top: 2px solid #ffffff;
+			height:535px;
+		}
+		#help ul{
+			padding:5px 20px 5px 20px;
+			width:120px;
+			text-align:left; 
+		}
+		#lia{
+			font-weight:bold;
+			padding:0px;
+			list-style-type: disc;
+		}
+		#lib{
+			padding-top:0px  ! important;
+		}
+		
+
+	

@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="padding:0px;">
+
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="style2.css" />
+</head>
+
+<style>
+html { overflow-x:hidden; }
+</style>
+
+<script type="text/javascript" language="JavaScript">
+function SetIPState()
+{
+	var staticip = document.ip.staticip.value;
+	var disable;
+	
+	if(staticip == 1)
+	{
+		disable = true;
+	}else{
+		disable = false;
+	}
+	document.ip.sip1.disabled = disable;
+	document.ip.sip2.disabled = disable;
+	document.ip.sip3.disabled = disable;
+	document.ip.sip4.disabled = disable;
+	document.ip.mip1.disabled = disable;
+	document.ip.mip2.disabled = disable;
+	document.ip.mip3.disabled = disable;
+	document.ip.mip4.disabled = disable;
+	document.ip.gip1.disabled = disable;
+	document.ip.gip2.disabled = disable;
+	document.ip.gip3.disabled = disable;
+	document.ip.gip4.disabled = disable;
+}
+
+function SetRoleState()
+{
+	var tnmode = document.ip.tnmode.value;
+	var disable;
+	
+	if((tnmode == 0) || (tnmode == 3))
+	{
+		disable = true;
+	}else{
+		disable = false;
+	}
+	
+	document.ip.trip1.disabled = disable;
+	document.ip.trip2.disabled = disable;
+	document.ip.trip3.disabled = disable;
+	document.ip.trip4.disabled = disable;
+	document.ip.trp.disabled = disable;
+	
+	document.ip.tlp.disabled = !disable;
+}
+
+function save(myForm)
+{
+	var answer = confirm("This will write setup to DataFlash, are you sure to do this?");
+	if(answer == false)
+	{
+		alert("Operate have been cancelled.");
+	}
+	else
+	{
+		top.location = "/index.shtml";
+	}
+}
+</script>
+
+<body onload="SetRoleState(); SetIPState();">
+<form  method="get" name="ip">
+	<div class="top_content" style="width：auto; height:auto">
+	
+	<div class="top">
+		<p>parameter</p>
+	</div>
+	
+	<table width="100%" border="0" bordercolor="#CCCCCC">
+	<tr>
+		<td height="21" width="30%" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Work Mode：</div></td>
+        <td bordercolor="#F0F0F0" align="left">
+			<select size="1" name="tnmode" onchange="SetRoleState();">
+				<option value="0" selected="selected">TCP Server</option>
+				<!--<option value="1">TCP Dynamic Client</option>-->
+				<option value="2">TCP Static Client</option>
+				<option value="3">UDP Server</option>
+				<!--<option value="4">UDP Dynamic Client</option>-->
+				<option value="5">UDP Static Client</option>
+			</select>mode
+		</td>
+    </tr>
+	<tr>
+		<td height="21" width="30%" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">IP type：</div></td>
+		<td bordercolor="#F0F0F0" align="left">
+			<select size="1" name="staticip" onchange="SetIPState();">
+				<!--<option value="1" selected="selected">DHCP</option>
+				<option value="0">Static IP</option>-->
+				%! ipconfig_page1-stats
+			</select>
+		</td>
+    </tr>
+	
+    <tr>
+		<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Static IP：</div></td>
+		<td bordercolor="#F0F0F0" align="left">
+		%! hipconfig-stats
+		</td>
+    </tr>
+    <tr>
+		<td height="30" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Submask：</div></td>
+		<td bordercolor="#F0F0F0" align="left">
+		%! mipconfig-stats
+		</td>
+    </tr>
+    <tr>
+		<td height="19" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Gateway：</div></td>
+		<td bordercolor="#F0F0F0" align="left">
+		%! gipconfig-stats
+		</td>
+    </tr>
+	<tr>
+		<td height="21" width="30%" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">keepalive mode：</div></td>
+		<td bordercolor="#F0F0F0" align="left">
+			<select size="1" name="ka">
+				<option value="1">ON</option>
+				<option value="0" selected="selected">OFF</option>
+			</select>
+		</td>
+    </tr>
+    <tr>
+		<td bordercolor="#FFFFFF" bgcolor="#FFFFFF" class="gr"><div align="right">Local  Port Number：</div></td>
+		<td><div align="left">
+				<input maxlength="5" size="5" name="tlp" value="8080"/>
+				(1~65535)</div>
+			<label></label>
+		</td>
+	</tr>
+	<tr>
+		<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Remote IP：</div></td>
+		<td bordercolor="#F0F0F0" align="left">
+			<input maxlength="3" size="3" name="trip1" value="192"/>
+			.
+			<input maxlength="3" size="3" name="trip2" value="168"/>
+			.
+			<input maxlength="3" size="3" name="trip3" value="1"/>
+			.
+			<input maxlength="3" size="3" name="trip4" value="100"/>
+		</td>
+    </tr>
+	<tr>
+		<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Remote Port Number：</div></td>
+		<td><div align="left">
+				<input maxlength="5" size="5" name="trp" value="8080"/>
+				(1~65535)</div>
+			<label></label>
+		</td>
+	</tr>
+	<tr>
+		<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Baud Rate：</div></td>
+		<td><div align="left">
+			<select size="1" name="bd">
+			<option value="1200">1200</option>
+			<option value="2400">2400</option>
+			<option value="4800">4800</option>
+			<option value="9600">9600</option>
+			<option value="14400">14400</option>
+			<option value="19200">19200</option>
+			<option value="56000">56000</option>
+			<option value="57600">57600</option>
+			<option value="38400">38400</option>
+			<option value="115200" selected="selected">115200</option>
+			<option value="194000">194000</option>
+			</select>
+			bps</div>
+		</td>
+	</tr>
+    <tr>
+        <td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Data Size：</div></td>
+        <td><div align="left">
+          <select size="1" name="wln">
+            <option value="7">7</option>
+            <option value="8" selected="selected">8</option>
+			<option value="9">9</option>
+          </select>
+          bit</div></td>
+    </tr>
+    <tr>
+        <td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Parity：</div></td>
+        <td><div align="left">
+          <select name="pty">
+            <option value="0" selected="selected">None</option>            
+            <option value="1">Odd</option>
+			<option value="2">Even</option>
+            <!--<option value="4">Mark</option>
+            <option value="5">Space</option>-->
+          </select>
+        </div></td>
+    </tr>
+    <tr>
+        <td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Stop Bits：</div></td>
+        <td><div align="left">
+          <select size="1" name="stop">
+            <option value="1" selected="selected">1</option>
+			<option value="3">1.5</option>
+            <option value="2">2</option>
+            </select>
+          bit</div></td>
+    </tr>
+	<!--<tr>
+      <td height="19" bordercolor="#F0F0F0" bgcolor="#FFFFFF"><div align="right">DNS Server：</div></td>
+      <td bordercolor="#F0F0F0" align="left"><input maxlength="3" size="3" name="dip1" />
+        .
+          <input maxlength="3" size="3" name="dip2" />
+          .
+          <input maxlength="3" size="3" name="dip3" />
+          .
+        <input maxlength="3" size="3" name="dip4" /></td>
+ 
+    </tr>-->
+	</table>
+	</div>
+
+	<button class="button" type="submit" onClick="return save(document.ip)">Save</button>
+	<button class="button" type="reset" onclick="window.location.href='ipconfigen.shtml' ">Cancel</button>
+
+</form>
+
+	<div id="sidebar">
+      <ul>
+        <li>Help</li>
+      </ul>
+	  <div id="help">
+		<div align="left">
+			<ul>
+				<li id="lia">IP type:</li>
+				<li id="lib">StaticIP or DHCP</li>
+				<li id="lia">StaticIP:</li>
+				<li id="lib">Module's static ip</li>
+				<li id="lia">Submask:</li>
+				<li id="lib">usually 255.255.255.0</li>
+				<li id="lia">Gateway:</li>
+				<li id="lib">Usually router's ip address</li>
+				<li id="lia">DNS IP:</li>
+				<li id="lib">DNS gateway or Router's IP</li>
+			</ul>
+        </div>
+	  </div>
+    </div>
+	
+</body>
+</html>

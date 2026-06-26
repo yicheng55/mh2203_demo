@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="padding:0px;">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="style2.css" />
+</head>
+
+<style>
+	html { overflow-x:hidden; }
+</style>	
+
+<script type="text/javascript" language="JavaScript">
+	function SetDNSState()
+	{
+		var dnsmode = document.adm.dnsmode.value;
+		var disable;
+		
+		if(dnsmode == 1)
+		{
+			disable = false;
+		}else{
+			disable = true;
+		}
+		document.adm.dip1.disabled = disable;
+		document.adm.dip2.disabled = disable;
+		document.adm.dip3.disabled = disable;
+		document.adm.dip4.disabled = disable;
+		document.adm.dsp.disabled = disable;
+		document.adm.srvname.disabled = disable;
+		document.adm.srvpath.disabled = disable;
+	}
+	
+	function CheckRestart(myForm)
+	{
+		var answer = confirm("Are you sure to do this?");
+		if(answer == false)
+		{
+			alert("Operate have been cancelled.");
+		}
+		else
+		{
+			top.location = "/index.shtml";
+		}
+	}
+</script>
+
+<body onload="SetDNSState();">
+<!--<form method="get" action="defaults.cgi" name="defaultform">-->
+<form method="get" name="adm">
+	<!--<div class="top_content" style="height:auto">
+		<div class="top">
+			<p>DNS</p>
+		</div>
+		
+		<table width="100%" border="0" bordercolor="#CCCCCC">
+			<tr>
+				<td height="21" width="30%" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">DNS Mode：</div></td>
+				<td bordercolor="#F0F0F0" align="left">
+					<select size="1" name="dnsmode" onchange="SetDNSState();">
+						<option value="1">ON</option>
+						<option value="0" selected="selected">OFF</option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">DNS Server IP：</div></td>
+				<td bordercolor="#F0F0F0" align="left">
+				%! dnsipconfig-stats
+				</td>
+			</tr>
+			<tr>
+				<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">DNS Server Port：</div></td>
+				<td><div align="left">
+						<input maxlength="5" size="5" name="dsp" value="8080"/>
+						(1~65535)</div>
+					<label></label>
+				</td>
+			</tr>
+			<tr>
+				<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Server Name</div></td>
+				<td bordercolor="#F0F0F0" align="left">
+				<input type="text" name="srvname">
+				</td>
+			</tr>
+			<tr>
+				<td height="20" bordercolor="#F0F0F0" bgcolor="#FFFFFF" class="gr"><div align="right">Server Path</div></td>
+				<td bordercolor="#F0F0F0" align="left">
+				<input type="text" name="srvpath">
+				</td>
+			</tr>
+		</table>
+		
+	</div>
+		<button class="button" type="submit" onClick="return CheckRestart(document.adm)">Save</button>
+		<button class="button" type="reset" onclick="window.location.href='manage.shtml' ">Cancel</button>
+	</form>
+	-->
+	
+	<form method="get" name="defaultform">
+	<div class="top_content" style="height:auto">		
+		<div class="top">
+			<p>Administration</p>
+		</div>
+		
+		<table width="100%" border="0" cellpadding="2" cellspacing="2">
+			<tbody>
+				<tr>
+					<td width="50%" bgcolor="#FFFFFF" class="gr">Restore Setup </td>
+					<td>
+						<button class="button" type="submit" name="restore" value="restore" onClick="return CheckRestart(document.defaultform);">Restore Setup</button>
+						<!--<input type="submit" name="restore" value="Restore Setup" class="button" formaction="parameter.shtml"/>-->
+						<!--<input type="submit" name="restore" value="restore" target="ifrPage" onClick="return CheckRestore(document.defaultform);" />-->
+					</td>	
+				</tr>
+
+				<tr>
+					<td width="50%" bgcolor="#FFFFFF" class="gr">Restart Module </td>
+					<!--<td style="text-align: center;">-->
+						<!--<input name="button"  onclick="window.location.href='initialen.shtml'" type="button" value="Restart Module" />-->
+						<!--<input type="submit" name="rst" value="rst" onClick="return CheckRestart(document.adm);" />
+					</td>-->
+					<td>
+						<button class="button" type="submit" name="rst" value="rst" onClick="return CheckRestart(document.defaultform);" >Restart Module</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</form>
+	
+	<div id="sidebar">
+	  <ul>
+		<li>Help</li>
+	  </ul>
+	  <div id="help">
+		<div align="left">
+			<ul>
+				<li id="lia">Restore Setup</li>
+				<li id="lia">Restart module</li>
+			</ul>
+		</div>
+	  </div>
+	</div>
+
+</body>
+</html>

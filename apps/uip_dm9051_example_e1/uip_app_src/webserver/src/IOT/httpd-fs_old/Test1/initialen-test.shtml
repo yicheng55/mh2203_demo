@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="padding:0px;">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="style2.css" />
+	<meta http-equiv="refresh" content="10">
+</head>
+
+<style>
+	html { overflow-x:hidden; }
+</style>
+
+<body>
+<!--<form action="inita.cgi" method="get">-->
+<form method="get">
+
+<div class="top_content" style="width：auto; height:auto">
+  <div class="top">
+    <p>current setup</p>
+    </div>
+  <table width="100%" border="0" bordercolor="#CCCCCC">
+  
+	<td height="18" width="30%" class="gr"><div align="right"> Module Name：</div></td>
+      <td width="70%"><div align="left"><b></select>   DM9051 UART to Ethernet   </td>
+		 </tr>
+		 </tr>
+		 
+	<!--%! current-stats-->
+	<td height="18" class="gr"><div align="right">MAC Address：</div></td>
+		<td><div align="left">
+       </select>  00:60:6e:90:55:01    </td>
+		 </tr>
+		 </tr>
+	<td height="18" class="gr"><div align="right">Current IP Address：</div></td>
+		<td><div align="left"><b>
+		 <select><option>  192.168.1.25    </option>
+		 <option>  192.168.1.26    </option>
+		 <option>  192.168.1.27    </option>
+		 </select></td>
+		 </tr>
+		 </tr>
+
+	<td height=\"18\" class=\"gr\"><div align="right">Remote Connection：</div></td> 
+		<td><div align="left"> 
+		</select>  IP : 8.8.8.8  Port: 0 </div></td> 
+		</tr> 
+		</tr> 
+			
+	<!--<td height="18" class="gr"><div align="right">Remote IP/TX/RX-1&nbsp;：</div></td>
+		<td><div align="left">
+		 </select>      </td>
+		 </tr>
+		 </tr>
+		 
+	<td height="18" class="gr"><div align="right">-2&nbsp;：</div></td> 
+		<td><div align="left">
+		 </select></td>
+		 </tr>
+		 </tr>
+		 
+	<td height="18" class="gr"><div align="right">-3&nbsp;：</div></td>
+		<td><div align="left">
+		 </select></td>
+		 </tr>
+		 </tr>
+		 
+	<td height="18" class="gr"><div align="right">-4&nbsp;：</div></td>
+		<td><div align="left">
+		 </select></td>
+		 </tr>
+		 
+	<td height="18" class="gr"><div align="right">-5&nbsp;：</div></td>
+		<td><div align="left">
+		 </select></td>
+		 </tr>
+		 </tr>
+		 
+	<td height="18" class="gr"><div align="right">TX Count/RX Count：</div></td>
+		<td><div align="left">
+		 </select></td>
+		 </tr>
+		 </tr>-->
+  </table>
+  </div>
+</form>
+
+	<div id="sidebar">
+      <ul type=square>
+		<li>Help</li>
+	  </ul>
+	  <div id="help"><div align="left">
+	  <ul>
+			<li id="lia">Current IP Address：</li>
+	        <li id="lib">Current Network of module</li>
+	        <li id="lia">Remote IP/TX/RX：</li>
+	        <li id="lib">IP of server or device connecting with module;reset for disconnect</li> 
+	        <li id="lib">TX/RX:data volume that each server or device communicates with module;reset for disconnect</li>
+	        <li id="lia">TX Count/RX Count：</li>
+	        <li id="lib">a total of data volume that servers or devices communicate with module;reset for power off</li>
+	        <li></li>
+       </ul>
+	  	
+	  </div></div>
+    </div>
+	
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Main web</title>
+  <!--<link rel="stylesheet" href="css/style_Main.css">-->
+  <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<!--<body>
+<header>
+  <p><img align="top" src="img/title.jpg" width="50%" height="25%"></p>
+  <p>&nbsp;</p>
+  <h1 align="Center" style="font-size: 32px; color: #FFFFFF;">DAVICOM DM9051 Network Management</h1>
+  <p align="Center" style="font-size: 32px; color: #FFFFFF;">&nbsp;</p>
+  <p>&nbsp;</p>
+      <ul class="nav">
+        <li>
+			<a href="webMain.shtml" class="icon home"><span></span></a>
+		</li>
+        <li class="dropdown">
+          <a href="webMain.shtml">General Overview</a>
+          <!--<ul>
+            <li><a href="Network_config.html">Network Config</a></li>
+			<li><a href="COM_config.html">COM Config</a></li>
+			<li><a href="Oth_config.html">Other Config</a></li>
+          </ul>-->
+<!--        </li>
+        <li class="dropdown">
+	        <a href="webMain.shtml">Host Interface</a>
+          <!--<ul class="large">
+            <li><a href="index.html">Music</a></li>
+          </ul>-->
+<!--        </li>
+        <li class="dropdown"><!--class="active">-->
+<!--        	<a href="webMain.shtml">System Config</a>
+        </li>
+        <li class="dropdown">
+      	   	<a href="webMain.shtml">User Config</a>
+              <!--<ul>
+                <li><a href="MAC_Modify.html">Modify MAC Address</a></li>
+                <li><a href="Pwd_Modiy.html">Change Password</a></li>
+              </ul>-->
+<!--        </li>
+		<li class="dropdown"> 
+			<a href="webMain.shtml">About</a>
+        </li>
+		<!--<li class="dropdown"> 
+			<a href="index.html">Logout</a>
+        </li>
+        <li>
+				<a href="webMain.html" class="icon settings"><span>Settings</span></a>
+		</li>-->
+<!--      </ul>
+    </nav>
+</header>-->
+	<p>&nbsp;</p>
+   	<p>&nbsp;</p>
+    <p>&nbsp;</p>
+	<div align="center">
+		<table style="text-align:right;font-size:24px" width="50%" height="35%"> 
+			%! sys-stats
+<!--			<tr>
+				<td >MAC Address :</td>
+				<td >%! sys-stats </td>
+			</tr>
+			<tr>
+				<td >IP Address : </td>
+				<td >&nbsp;</td>
+			</tr>
+			<tr>
+				<td >Network Mask : </td>
+				<td >&nbsp;</td>
+			</tr>
+			<tr>
+				<td >Getway : </td>
+				<td >&nbsp;</td>
+			</tr>-->
+			<tr>
+				<td width=19%c class="bottom" style="text-align: right"><B>LED Test&nbsp;:&nbsp;</B></td>
+				<td width=27%c align=center class="bottom" style="text-align: left">
+					<a href="LED1">ON</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="LED0">OFF</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="LED2">Flash</a></td>
+			</tr>
+		</table>
+	</div>
+  <!--<p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p align="center" style="font-size: 18px"> &nbsp; &nbsp;  &nbsp; &nbsp; MCU Chip : NUVOTON NUC_M451 Series</p>	
+  <p>&nbsp;</p>
+  <p align="center" style="font-size: 18px"> Network Chip : DAVICOM DM9051</p><table width="200" border="10" cellpadding="1">
+<p>&nbsp;</p>
+  <p align="center" style="font-size: 18px"> MAC Address : </p>
+  <p>&nbsp;</p>
+  <p align="center" style="font-size: 18px"> IP Address : </p>
+  <p>&nbsp;</p>
+  <p align="center" style="font-size: 18px"> Network Mask : </p>
+  <p>&nbsp;</p>
+  <p align="center" style="font-size: 18px"> Getway : </p>
+  <p>&nbsp;</p>-->
+
+<!--<section class="about">
+    <p class="about-links">
+      <a href="http://www.cssflow.com/snippets/tabbed-navigation" target="_parent">View Article</a>
+      <a href="http://www.cssflow.com/snippets/tabbed-navigation.zip" target="_parent">Download</a>
+    </p>
+    <p class="about-author">
+      &copy; 2012&ndash;2013 <a href="http://thibaut.me" target="_blank">Thibaut Courouble</a> -
+      <a href="http://www.cssflow.com/mit-license" target="_blank">MIT License</a><br>
+      Original PSD by <a href="http://www.premiumpixels.com/freebies/simple-tabbed-navigation-psd/" target="_blank">Orman Clark</a>
+    </p>
+  </section>-->
+</body>
+</html>

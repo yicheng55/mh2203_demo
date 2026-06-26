@@ -19,6 +19,8 @@ objects
 **/OBJ/
 **/obj/
 **/Objects/
+**/OBJ_UIP/
+**/OBJ_UIP_INT/
 *.o
 *.ko
 *.obj
@@ -77,7 +79,7 @@ settings/
 
 # Keil MDK / uVision
 *.uvproj
-*.uvprojx
+# *.uvprojx
 *.scvd
 *.sct
 *.user1
