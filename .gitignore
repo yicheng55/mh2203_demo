@@ -8,6 +8,7 @@
 *.temp
 *.log
 desktop.ini
+.gitnexus/
 
 # ============================================
 # Build Output

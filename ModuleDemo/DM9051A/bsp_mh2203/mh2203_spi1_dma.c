@@ -39,13 +39,13 @@ static uint8_t DM9051A_DummyRx;
 
 static void DM9051A_DebugPrintPinState(void)
 {
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] GPIOA MODER=0x%08lX IDR=0x%04X ODR=0x%04X AFRH=0x%08lX\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOA MODER=0x%08lX IDR=0x%04X ODR=0x%04X AFRH=0x%08lX\r\n",
                      GPIOA->MODER, GPIOA->IDR, GPIOA->ODR, GPIOA->AFR[1]);
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] GPIOB MODER=0x%08lX IDR=0x%04X ODR=0x%04X AFRL=0x%08lX\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOB MODER=0x%08lX IDR=0x%04X ODR=0x%04X AFRL=0x%08lX\r\n",
                      GPIOB->MODER, GPIOB->IDR, GPIOB->ODR, GPIOB->AFR[0]);
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] GPIOF MODER=0x%08lX IDR=0x%04X ODR=0x%04X\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOF MODER=0x%08lX IDR=0x%04X ODR=0x%04X\r\n",
                      GPIOF->MODER, GPIOF->IDR, GPIOF->ODR);
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] Pins CS(PA15)=%u SCK(PB3)=%u MOSI(PB5)=%u MISO(PB4)=%u RST(PF7)=%u\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] Pins CS(PA15)=%u SCK(PB3)=%u MOSI(PB5)=%u MISO(PB4)=%u RST(PF7)=%u\r\n",
                      (DM9051A_CS_PORT->IDR & DM9051A_CS_PIN)     ? 1u : 0u,
                      (DM9051A_SCK_PORT->IDR & DM9051A_SCK_PIN)   ? 1u : 0u,
                      (DM9051A_MOSI_PORT->ODR & DM9051A_MOSI_PIN) ? 1u : 0u,
@@ -66,9 +66,9 @@ static void DM9051A_DebugPrintSpiState(void)
     br = ((uint32_t)DM9051A_SPI->CR1 >> 3u) & 0x7u;
     spi_clk = pclk >> (br + 1u);
 
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] SPI1 CR1=0x%04X CR2=0x%04X SR=0x%04X I2SCFGR=0x%04X\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] SPI1 CR1=0x%04X CR2=0x%04X SR=0x%04X I2SCFGR=0x%04X\r\n",
                      DM9051A_SPI->CR1, DM9051A_SPI->CR2, DM9051A_SPI->SR, DM9051A_SPI->I2SCFGR);
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] SPI1 clock: PCLK=%lu Hz, BR=%lu (div=%lu), SPI_CLK=%lu Hz (%lu kHz)\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] SPI1 clock: PCLK=%lu Hz, BR=%lu (div=%lu), SPI_CLK=%lu Hz (%lu kHz)\r\n",
                      pclk, br, 1ul << (br + 1u), spi_clk, spi_clk / 1000ul);
 }
 #endif
@@ -80,7 +80,7 @@ static uint8_t DM9051A_WaitSpiIdle(void)
     while (SPI_I2S_GetFlagStatus(DM9051A_SPI, SPI_I2S_FLAG_BSY) == SET) {
         if (--timeout == 0u) {
 #if DM9051A_SPI_DEBUG
-            DM9051A_DBG_PRINT("[DM9051A DMA DBG] SPI busy timeout, SR=0x%04X\r\n", DM9051A_SPI->SR);
+            DM9051A_DBG_PRINT("[MH2203 DMA DBG] SPI busy timeout, SR=0x%04X\r\n", DM9051A_SPI->SR);
 #endif
             return 0u;
         }
@@ -150,7 +150,7 @@ static uint8_t DM9051A_DmaTransfer(uint8_t *rx, const uint8_t *tx, uint16_t len)
             DMA_Cmd(DM9051A_SPI_TX_DMA, DISABLE);
             DMA_Cmd(DM9051A_SPI_RX_DMA, DISABLE);
 #if DM9051A_SPI_DEBUG
-            DM9051A_DBG_PRINT("[DM9051A DMA DBG] DMA RX timeout, len=%u SR=0x%04X\r\n", len, DM9051A_SPI->SR);
+            DM9051A_DBG_PRINT("[MH2203 DMA DBG] DMA RX timeout, len=%u SR=0x%04X\r\n", len, DM9051A_SPI->SR);
 #endif
             return 0u;
         }
@@ -162,7 +162,7 @@ static uint8_t DM9051A_DmaTransfer(uint8_t *rx, const uint8_t *tx, uint16_t len)
             DMA_Cmd(DM9051A_SPI_TX_DMA, DISABLE);
             DMA_Cmd(DM9051A_SPI_RX_DMA, DISABLE);
 #if DM9051A_SPI_DEBUG
-            DM9051A_DBG_PRINT("[DM9051A DMA DBG] DMA TX timeout, len=%u SR=0x%04X\r\n", len, DM9051A_SPI->SR);
+            DM9051A_DBG_PRINT("[MH2203 DMA DBG] DMA TX timeout, len=%u SR=0x%04X\r\n", len, DM9051A_SPI->SR);
 #endif
             return 0u;
         }
@@ -251,7 +251,7 @@ void MH2203_SPI1_Init(void)
     SPI_Cmd(DM9051A_SPI, ENABLE);
 
 #if DM9051A_SPI_DEBUG
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] SPI1 DMA init done\r\n");
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] SPI1 DMA init done\r\n");
     DM9051A_DebugPrintPinState();
     DM9051A_DebugPrintSpiState();
 #endif
@@ -265,7 +265,7 @@ uint8_t MH2203_SPI1_Transfer(uint8_t tx)
     while (SPI_I2S_GetFlagStatus(DM9051A_SPI, SPI_I2S_FLAG_TXE) == RESET) {
         if (--timeout == 0u) {
 #if DM9051A_SPI_DEBUG
-            DM9051A_DBG_PRINT("[DM9051A DMA DBG] TXE timeout, SR=0x%04X\r\n", DM9051A_SPI->SR);
+            DM9051A_DBG_PRINT("[MH2203 DMA DBG] TXE timeout, SR=0x%04X\r\n", DM9051A_SPI->SR);
 #endif
             return 0x00u;
         }
@@ -276,7 +276,7 @@ uint8_t MH2203_SPI1_Transfer(uint8_t tx)
     while (SPI_I2S_GetFlagStatus(DM9051A_SPI, SPI_I2S_FLAG_RXNE) == RESET) {
         if (--timeout == 0u) {
 #if DM9051A_SPI_DEBUG
-            DM9051A_DBG_PRINT("[DM9051A DMA DBG] RXNE timeout, tx=0x%02X SR=0x%04X CR1=0x%04X CR2=0x%04X\r\n",
+            DM9051A_DBG_PRINT("[MH2203 DMA DBG] RXNE timeout, tx=0x%02X SR=0x%04X CR1=0x%04X CR2=0x%04X\r\n",
                              tx, DM9051A_SPI->SR, DM9051A_SPI->CR1, DM9051A_SPI->CR2);
 #endif
             return 0x00u;
@@ -298,14 +298,14 @@ void DM9051A_CS_High(void)
 void DM9051A_HardwareReset(void)
 {
 #if DM9051A_SPI_DEBUG
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] Hardware reset start\r\n");
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] Hardware reset start\r\n");
 #endif
     GPIO_ResetBits(DM9051A_RST_PORT, DM9051A_RST_PIN);
     Delay_Ms(2);
     GPIO_SetBits(DM9051A_RST_PORT, DM9051A_RST_PIN);
     Delay_Ms(10);
 #if DM9051A_SPI_DEBUG
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] Hardware reset done, RST(PF7)=%u\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] Hardware reset done, RST(PF7)=%u\r\n",
                      (GPIOF->IDR & DM9051A_RST_PIN) ? 1u : 0u);
 #endif
 }
@@ -325,7 +325,7 @@ void DM9051A_DebugDump(const char *tag)
     uint8_t isr;
     uint8_t imr;
 
-    DM9051A_DBG_PRINT("\r\n[DM9051A DMA DBG] dump: %s\r\n", tag ? tag : "");
+    DM9051A_DBG_PRINT("\r\n[MH2203 DMA DBG] dump: %s\r\n", tag ? tag : "");
     DM9051A_DebugPrintPinState();
     DM9051A_DebugPrintSpiState();
 
@@ -333,7 +333,7 @@ void DM9051A_DebugDump(const char *tag)
     raw1 = MH2203_SPI1_Transfer(DM9051A_CHIPR | DM9051A_OP_REG_R);
     raw2 = MH2203_SPI1_Transfer(0x00u);
     DM9051A_CS_High();
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] raw CHIPR read: cmd=0x%02X data=0x%02X\r\n", raw1, raw2);
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] raw CHIPR read: cmd=0x%02X data=0x%02X\r\n", raw1, raw2);
 
     ncr = DM9051A_ReadReg(DM9051A_NCR);
     nsr = DM9051A_ReadReg(0x01u);
@@ -345,7 +345,7 @@ void DM9051A_DebugDump(const char *tag)
     isr = DM9051A_ReadReg(0x7Eu);
     imr = DM9051A_ReadReg(0x7Fu);
 
-    DM9051A_DBG_PRINT("[DM9051A DMA DBG] regs NCR=0x%02X NSR=0x%02X VIDL=0x%02X VIDH=0x%02X PIDL=0x%02X PIDH=0x%02X CHIPR=0x%02X ISR=0x%02X IMR=0x%02X\r\n",
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] regs NCR=0x%02X NSR=0x%02X VIDL=0x%02X VIDH=0x%02X PIDL=0x%02X PIDH=0x%02X CHIPR=0x%02X ISR=0x%02X IMR=0x%02X\r\n",
                      ncr, nsr, vidl, vidh, pidl, pidh, chipr, isr, imr);
     DM9051A_DebugPrintSpiState();
 #else
