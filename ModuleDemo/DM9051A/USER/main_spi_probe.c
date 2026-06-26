@@ -66,7 +66,6 @@ static void Clock_Log(const char *fmt, ...)
 {
     char buffer[96];
     va_list args;
-    int i;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
@@ -79,10 +78,11 @@ static void Clock_PrintConfig(void)
     RCC_GetClocksFreq(&clocks);
     Clock_Log("Clock mode: HSI/2 + PLL (72MHz target)\r\n");
     Clock_Log("PLL source: HSI/2, PLL mul: x18\r\n");
-    Clock_Log("SYSCLK: %3.1fMhz, HCLK: %3.1fMhz, PCLK: %3.1fMhz\r\n",
+    Clock_Log("SYSCLK: %3.1fMhz, HCLK: %3.1fMhz, PCLK1: %3.1fMhz, PCLK2: %3.1fMhz\r\n",
         (float)clocks.SYSCLK_Frequency / 1000000,
         (float)clocks.HCLK_Frequency   / 1000000,
-        (float)clocks.PCLK_Frequency   / 1000000);
+        (float)clocks.PCLK1_Frequency  / 1000000,
+        (float)clocks.PCLK2_Frequency  / 1000000);
 }
 
 static void CLK_Configuration(void)
@@ -99,7 +99,8 @@ static void CLK_Configuration(void)
     while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET) { }
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
     RCC_HCLKConfig(RCC_SYSCLK_Div1);
-    RCC_PCLKConfig(RCC_HCLK_Div1);
+    RCC_PCLK1Config(RCC_HCLK_Div1);
+    RCC_PCLK2Config(RCC_HCLK_Div1);
 }
 
 static void UART_Configuration(uint32_t baud)
@@ -108,25 +109,18 @@ static void UART_Configuration(uint32_t baud)
     USART_InitTypeDef usart;
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
-
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = GPIO_Pin_2;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_AF_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOA, &gpio);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = GPIO_Pin_3;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_Init(GPIOA, &gpio);
 
     USART_StructInit(&usart);
