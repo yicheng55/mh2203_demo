@@ -139,6 +139,7 @@ MH2203 Platform Port (ports/mh2203/ — SPI1, DMA, IRQ, delay, board)
 | `docs/dm9051_lwip_adapter_analysis.md` | lwIP adapter 深度分析 |
 | `docs/DM9051_HAL_REFACTOR_PROMPT.md` | HAL 重構計劃與 prompt |
 | `ModuleDemo/DM9051A/dm9051_driver/README.md` | 新版驅動佈局文件 |
+| `c_naming_convention_clean_code.md` | C 語言命名規範；新增、重構、命名審查與 code review 時使用 |
 
 ## 慣例
 
@@ -146,6 +147,7 @@ MH2203 Platform Port (ports/mh2203/ — SPI1, DMA, IRQ, delay, board)
 - AGENTS.md 與 CLAUDE.md 需保持一致（同步鏡像）
 - 繁體中文註解與文件
 - 命名慣例：`snake_case`，前綴 `dm9051_`、`mh2203_`、`uip_`、`ethernetif_`
+- C 程式命名細則依 `c_naming_convention_clean_code.md`；若與既有公開 API 或第三方 SDK 命名衝突，優先保留相容性並先提出風險
 - `.uvprojx` 和 `.uvoptx` 納入版控（但 `.uvguix.*` 排除）
 - lwIP 為 `NO_SYS=1` 裸機模式，無 RTOS
 - `core/` 和 `hal/` 不能引入 uIP / lwIP / MH2203 header
