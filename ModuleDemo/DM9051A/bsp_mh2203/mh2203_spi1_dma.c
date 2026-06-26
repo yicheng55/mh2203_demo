@@ -39,12 +39,12 @@ static uint8_t DM9051A_DummyRx;
 
 static void DM9051A_DebugPrintPinState(void)
 {
-    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOA MODER=0x%08lX IDR=0x%04X ODR=0x%04X AFRH=0x%08lX\r\n",
-                     GPIOA->MODER, GPIOA->IDR, GPIOA->ODR, GPIOA->AFR[1]);
-    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOB MODER=0x%08lX IDR=0x%04X ODR=0x%04X AFRL=0x%08lX\r\n",
-                     GPIOB->MODER, GPIOB->IDR, GPIOB->ODR, GPIOB->AFR[0]);
-    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOF MODER=0x%08lX IDR=0x%04X ODR=0x%04X\r\n",
-                     GPIOF->MODER, GPIOF->IDR, GPIOF->ODR);
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOA CRH=0x%08lX IDR=0x%04X ODR=0x%04X\r\n",
+                     GPIOA->CRH, GPIOA->IDR, GPIOA->ODR);
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOB CRL=0x%08lX IDR=0x%04X ODR=0x%04X\r\n",
+                     GPIOB->CRL, GPIOB->IDR, GPIOB->ODR);
+    DM9051A_DBG_PRINT("[MH2203 DMA DBG] GPIOF CRL=0x%08lX IDR=0x%04X ODR=0x%04X\r\n",
+                     GPIOF->CRL, GPIOF->IDR, GPIOF->ODR);
     DM9051A_DBG_PRINT("[MH2203 DMA DBG] Pins CS(PA15)=%u SCK(PB3)=%u MOSI(PB5)=%u MISO(PB4)=%u RST(PF7)=%u\r\n",
                      (DM9051A_CS_PORT->IDR & DM9051A_CS_PIN)     ? 1u : 0u,
                      (DM9051A_SCK_PORT->IDR & DM9051A_SCK_PIN)   ? 1u : 0u,
@@ -61,7 +61,7 @@ static void DM9051A_DebugPrintSpiState(void)
     RCC_ClocksTypeDef clks;
 
     RCC_GetClocksFreq(&clks);
-    pclk = clks.PCLK_Frequency;
+    pclk = clks.PCLK2_Frequency;   /* SPI1 is on APB2 */
 
     br = ((uint32_t)DM9051A_SPI->CR1 >> 3u) & 0x7u;
     spi_clk = pclk >> (br + 1u);
@@ -180,58 +180,47 @@ void MH2203_SPI1_Init(void)
     GPIO_InitTypeDef gpio;
     SPI_InitTypeDef spi;
 
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOF, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
-    DMA_RemapConfig(DMA1, DMA1_CH2_SPI1_RX);
-    DMA_RemapConfig(DMA1, DMA1_CH3_SPI1_TX);
+
+    /* Free PA15/PB3/PB4 from JTAG and route SPI1 to PB3/PB4/PB5. */
+    GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+    GPIO_PinRemapConfig(GPIO_Remap_SPI1, ENABLE);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = DM9051A_CS_PIN;
-    gpio.GPIO_Mode = GPIO_Mode_OUT;
+    gpio.GPIO_Mode = GPIO_Mode_Out_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_Init(DM9051A_CS_PORT, &gpio);
     DM9051A_CS_High();
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = DM9051A_RST_PIN;
-    gpio.GPIO_Mode = GPIO_Mode_OUT;
+    gpio.GPIO_Mode = GPIO_Mode_Out_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_Init(DM9051A_RST_PORT, &gpio);
     DM9051A_HardwareReset();
 
-    GPIO_PinAFConfig(GPIOB, GPIO_PinSource3, GPIO_AF_0);
-    GPIO_PinAFConfig(GPIOB, GPIO_PinSource4, GPIO_AF_0);
-    GPIO_PinAFConfig(GPIOB, GPIO_PinSource5, GPIO_AF_0);
-
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = DM9051A_SCK_PIN;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_AF_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(DM9051A_SCK_PORT, &gpio);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = DM9051A_MOSI_PIN;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_AF_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(DM9051A_MOSI_PORT, &gpio);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = DM9051A_MISO_PIN;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_IPU;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_Init(DM9051A_MISO_PORT, &gpio);
 
     SPI_I2S_DeInit(DM9051A_SPI);
@@ -246,7 +235,6 @@ void MH2203_SPI1_Init(void)
     spi.SPI_FirstBit = SPI_FirstBit_MSB;
     spi.SPI_CRCPolynomial = 7;
     SPI_Init(DM9051A_SPI, &spi);
-    SPI_RxFIFOThresholdConfig(DM9051A_SPI, SPI_RxFIFOThreshold_QF);
     SPI_I2S_DMACmd(DM9051A_SPI, SPI_I2S_DMAReq_Rx | SPI_I2S_DMAReq_Tx, ENABLE);
     SPI_Cmd(DM9051A_SPI, ENABLE);
 
@@ -270,7 +258,7 @@ uint8_t MH2203_SPI1_Transfer(uint8_t tx)
             return 0x00u;
         }
     }
-    SPI_SendData8(DM9051A_SPI, tx);
+    SPI_I2S_SendData(DM9051A_SPI, (uint16_t)tx);
 
     timeout = DM9051A_SPI_DMA_TIMEOUT;
     while (SPI_I2S_GetFlagStatus(DM9051A_SPI, SPI_I2S_FLAG_RXNE) == RESET) {
@@ -282,7 +270,7 @@ uint8_t MH2203_SPI1_Transfer(uint8_t tx)
             return 0x00u;
         }
     }
-    return SPI_ReceiveData8(DM9051A_SPI);
+    return (uint8_t)SPI_I2S_ReceiveData(DM9051A_SPI);
 }
 
 void DM9051A_CS_Low(void)
