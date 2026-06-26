@@ -1,7 +1,7 @@
 ---
 name: git-commit
 description: >-
-   依照 mh2030_demo 嵌入式 C / MCU 專案的 Git commit 規範，
+   依照 mh2203_demo 嵌入式 C / MCU 專案的 Git commit 規範，
    協助撰寫、確認並執行 commit（與可選的 push）。
    Use when: user wants to commit changes, write a commit message, git commit,
    寫 commit、提交、commit message、推版、push。
@@ -66,7 +66,7 @@ git log --oneline -5       # 最近 5 筆 commit（用於對齊風格）
 |----------|----------|
 | `dm9051_driver/core/` | DM9051 Core Driver |
 | `dm9051_driver/hal/` | HAL Interface |
-| `dm9051_driver/ports/mh2030a/` | MH2030A Platform Port |
+| `dm9051_driver/ports/mh2203/` | MH2203 Platform Port |
 | `dm9051_driver/adapters/uip/` | uIP Adapter |
 | `dm9051_driver/adapters/lwip/` | lwIP Adapter |
 | `middlewares/` | Third-party stack (uIP/lwIP) |
@@ -104,7 +104,7 @@ git log --oneline -5       # 最近 5 筆 commit（用於對齊風格）
 |---|---|
 | `core/src/dm9051_core.c`, `core/inc/dm9051_core.h`, `dm9051_regs.h` | `DM9051` |
 | `hal/inc/dm9051_hal.h`, 或新加 `_vtable` 檔案 | `HAL` |
-| `ports/mh2030a/` 下任何檔案 | `PORT` |
+| `ports/mh2203/` 下任何檔案 | `PORT` |
 | `adapters/uip/` 下任何檔案 | `uIP` |
 | `adapters/lwip/` 下任何檔案 | `lwIP` |
 | `apps/` 下任何檔案 | `APP` |
@@ -154,7 +154,7 @@ Detailed changes:
 - Configure DMA transfer size to match DM9051 FIFO granularity
 
 Overall impact and purpose:
-Enables zero-copy RX/TX for DM9051 on MH2030A,
+Enables zero-copy RX/TX for DM9051 on MH2203,
 reducing CPU load during network throughput tests.
 ```
 
