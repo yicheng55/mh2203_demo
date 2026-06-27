@@ -9,10 +9,9 @@
 #pragma message("[DM9051 MH2203 build] int: DM9051_MH2203_ENABLE_IRQ=0")
 #endif
 
-#if DM9051_MH2203_ENABLE_IRQ
-
-static volatile dm9051_device_t *dm9051_mh2203_irq_device;
-static volatile uint32_t dm9051_mh2203_irq_event_count;
+/* irq_init/enable/disable_if_enabled are always compiled.
+ * Each function checks config->irq_mode at runtime and returns early when
+ * IRQ is not configured, so they are safe regardless of ENABLE_IRQ. */
 
 void dm9051_mh2203_irq_init_if_enabled(const dm9051_mh2203_config_t *config)
 {
@@ -77,6 +76,11 @@ void dm9051_mh2203_irq_disable_if_enabled(void *ctx)
     EXTI_ClearITPendingBit(DM9051_MH2203_INT_LINE);
 }
 
+#if DM9051_MH2203_ENABLE_IRQ
+
+static volatile dm9051_device_t *dm9051_mh2203_irq_device;
+static volatile uint32_t dm9051_mh2203_irq_event_count;
+
 void dm9051_mh2203_irq_attach_device(dm9051_device_t *dev)
 {
     dm9051_mh2203_irq_device = dev;
@@ -122,22 +126,7 @@ void EXTI9_5_IRQHandler(void)
 }
 #endif
 
-#else /* !DM9051_MH2203_ENABLE_IRQ — provide no-op stubs so the linker is satisfied */
-
-void dm9051_mh2203_irq_init_if_enabled(const dm9051_mh2203_config_t *config)
-{
-    (void)config;
-}
-
-void dm9051_mh2203_irq_enable_if_enabled(void *ctx)
-{
-    (void)ctx;
-}
-
-void dm9051_mh2203_irq_disable_if_enabled(void *ctx)
-{
-    (void)ctx;
-}
+#else /* !DM9051_MH2203_ENABLE_IRQ */
 
 void dm9051_mh2203_irq_attach_device(dm9051_device_t *dev)
 {

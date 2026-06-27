@@ -64,25 +64,10 @@ int dm9051_mh2203_polling_write_mem(void *ctx,
 extern const dm9051_hal_ops_t dm9051_mh2203_dma_ops;
 #endif
 
-#if DM9051_MH2203_ENABLE_IRQ
+/* Always declared as extern — dm9051_hal_mh2203_int.c provides the definitions
+ * unconditionally (runtime guard handles the no-IRQ case). */
 void dm9051_mh2203_irq_init_if_enabled(const dm9051_mh2203_config_t *config);
 void dm9051_mh2203_irq_enable_if_enabled(void *ctx);
 void dm9051_mh2203_irq_disable_if_enabled(void *ctx);
-#else
-static void dm9051_mh2203_irq_init_if_enabled(const dm9051_mh2203_config_t *config)
-{
-    (void)config;
-}
-
-static void dm9051_mh2203_irq_enable_if_enabled(void *ctx)
-{
-    (void)ctx;
-}
-
-static void dm9051_mh2203_irq_disable_if_enabled(void *ctx)
-{
-    (void)ctx;
-}
-#endif
 
 #endif /* DM9051_HAL_MH2203_SPI1_PRIV_H */

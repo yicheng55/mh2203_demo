@@ -110,7 +110,7 @@ MH2203 Platform Port (ports/mh2203/ — SPI1, DMA, IRQ, delay, board)
 - 繁體中文註解與文件
 - 命名慣例：`snake_case`，前綴 `dm9051_`、`mh2203_`、`uip_`、`ethernetif_`
 - C 程式命名細則依 `c_naming_convention_clean_code.md`；若與既有公開 API 或第三方 SDK 命名衝突，優先保留相容性並先提出風險
-- `.uvprojx` 和 `.uvoptx` 納入版控（但 `.uvguix.*` 排除）
+- `.uvprojx` 納入版控（但 `.uvguix.*` 和 `.uvoptx` 排除）
 - lwIP 為 `NO_SYS=1` 裸機模式，無 RTOS
 - `core/` 和 `hal/` 不能引入 uIP / lwIP / MH2203 header
 - `adapters/` 不能引入 MH2203 SPI / GPIO / IRQ header
