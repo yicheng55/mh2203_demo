@@ -8,6 +8,7 @@
 # mh2030_demo — 倉庫指引
 
 ## 專案概要
+以後都使用繁體中文回答!
 
 Davicom MH2203 (ARM Cortex-M0) + DM9051A SPI 乙太網路驅動 SDK 與 demo。
 C99，Keil MDK uVision 5 (`.uvprojx`)。非 Makefile/CMake。
