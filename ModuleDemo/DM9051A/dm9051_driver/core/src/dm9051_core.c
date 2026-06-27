@@ -353,7 +353,13 @@ static void dm9051_core_bus_release(dm9051_device_t *dev,
     dm9051_core_exit_critical(hal, state);
 }
 
-static int dm9051_core_probe(dm9051_device_t *dev, const dm9051_hal_t *hal)
+/* 冷啟動時首次 SPI 讀取可能偶發破壞個別位元組 (常見為 VIDL/CHIPR)，
+ * 故 ID 探測以多次重讀容錯；數值與延遲皆保守，不影響正常開機路徑。 */
+#define DM9051_PROBE_MAX_ATTEMPTS    4u
+#define DM9051_PROBE_RETRY_DELAY_MS  2u
+
+static int dm9051_core_read_identity(dm9051_device_t *dev,
+                                     const dm9051_hal_t *hal)
 {
     uint8_t vidl;
     uint8_t vidh;
@@ -361,10 +367,6 @@ static int dm9051_core_probe(dm9051_device_t *dev, const dm9051_hal_t *hal)
     uint8_t pidh;
     uint8_t chipr;
     int status;
-
-    if ((dev == 0) || (hal == 0)) {
-        return DM9051_ERR_PARAM;
-    }
 
     status = dm9051_core_read_reg(hal, DM9051_VIDL, &vidl);
     if (status != DM9051_OK) {
@@ -402,6 +404,34 @@ static int dm9051_core_probe(dm9051_device_t *dev, const dm9051_hal_t *hal)
 
     if (chipr == 0xffu) {
         return DM9051_ERR_NOT_READY;
+    }
+
+    return DM9051_OK;
+}
+
+static int dm9051_core_probe(dm9051_device_t *dev, const dm9051_hal_t *hal)
+{
+    int status;
+    uint8_t attempt;
+
+    if ((dev == 0) || (hal == 0)) {
+        return DM9051_ERR_PARAM;
+    }
+
+    status = DM9051_ERR_NOT_READY;
+    for (attempt = 0u; attempt < DM9051_PROBE_MAX_ATTEMPTS; ++attempt) {
+        status = dm9051_core_read_identity(dev, hal);
+        if (status == DM9051_OK) {
+            break;
+        }
+
+        if (hal->ops->delay_ms != 0) {
+            hal->ops->delay_ms(DM9051_PROBE_RETRY_DELAY_MS);
+        }
+    }
+
+    if (status != DM9051_OK) {
+        return status;
     }
 
     dev->runtime.device_found = 1u;

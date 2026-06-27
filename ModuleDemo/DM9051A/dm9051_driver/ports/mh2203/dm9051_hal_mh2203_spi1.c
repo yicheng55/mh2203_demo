@@ -165,7 +165,7 @@ void dm9051_mh2203_spi1_bus_init_common(void)
     spi.SPI_CPOL              = SPI_CPOL_Low;
     spi.SPI_CPHA              = SPI_CPHA_1Edge;
     spi.SPI_NSS               = SPI_NSS_Soft;
-    spi.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+    spi.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;
     spi.SPI_FirstBit          = SPI_FirstBit_MSB;
     spi.SPI_CRCPolynomial     = 7;
     SPI_Init(DM9051_MH2203_SPI, &spi);
