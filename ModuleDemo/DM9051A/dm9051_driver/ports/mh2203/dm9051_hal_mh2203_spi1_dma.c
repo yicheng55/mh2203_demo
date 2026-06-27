@@ -2,6 +2,12 @@
 #include "dm9051_hal_mh2203_spi1_priv.h"
 
 #if DM9051_MH2203_ENABLE_DMA
+#pragma message("[DM9051 MH2203 build] spi1_dma: DM9051_MH2203_ENABLE_DMA=1")
+#else
+#pragma message("[DM9051 MH2203 build] spi1_dma: DM9051_MH2203_ENABLE_DMA=0")
+#endif
+
+#if DM9051_MH2203_ENABLE_DMA
 
 #define DM9051_MH2203_RX_DMA       DMA1_Channel2
 #define DM9051_MH2203_TX_DMA       DMA1_Channel3

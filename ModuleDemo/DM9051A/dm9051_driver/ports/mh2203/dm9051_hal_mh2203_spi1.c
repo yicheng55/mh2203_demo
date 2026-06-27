@@ -11,6 +11,18 @@
 
 #include <stdio.h>
 
+#if DM9051_MH2203_ENABLE_DMA
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_DMA=1")
+#else
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_DMA=0")
+#endif
+
+#if DM9051_MH2203_ENABLE_IRQ
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_IRQ=1")
+#else
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_IRQ=0")
+#endif
+
 const dm9051_hal_ops_t dm9051_mh2203_polling_ops = {
     dm9051_mh2203_polling_read_reg,
     dm9051_mh2203_polling_write_reg,

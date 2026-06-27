@@ -9,6 +9,18 @@
 
 #include <stdio.h>
 
+#if DM9051_MH2203_USE_DMA
+#pragma message("[DM9051 MH2203 uIP build] smoke: DM9051_MH2203_USE_DMA=1")
+#else
+#pragma message("[DM9051 MH2203 uIP build] smoke: DM9051_MH2203_USE_DMA=0")
+#endif
+
+#if DM9051_MH2203_USE_IRQ
+#pragma message("[DM9051 MH2203 uIP build] smoke: DM9051_MH2203_USE_IRQ=1")
+#else
+#pragma message("[DM9051 MH2203 uIP build] smoke: DM9051_MH2203_USE_IRQ=0")
+#endif
+
 /* netif 私有資料 (dev + hal + rx/tx buffer)，供 uIP stack 共用。 */
 static struct uip_ethernetif s_smoke_eth_inst;
 static int s_smoke_status = DM9051_ERR_NOT_READY;

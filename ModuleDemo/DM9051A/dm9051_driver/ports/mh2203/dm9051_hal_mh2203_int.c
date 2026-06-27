@@ -4,6 +4,12 @@
 #include "../../core/inc/dm9051_core.h"
 
 #if DM9051_MH2203_ENABLE_IRQ
+#pragma message("[DM9051 MH2203 build] int: DM9051_MH2203_ENABLE_IRQ=1")
+#else
+#pragma message("[DM9051 MH2203 build] int: DM9051_MH2203_ENABLE_IRQ=0")
+#endif
+
+#if DM9051_MH2203_ENABLE_IRQ
 
 static volatile dm9051_device_t *dm9051_mh2203_irq_device;
 static volatile uint32_t dm9051_mh2203_irq_event_count;

@@ -357,7 +357,7 @@
             <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+              <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
             </VariousControls>
@@ -438,7 +438,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -614,7 +614,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -670,7 +670,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -736,7 +736,7 @@
                 <v6Rtti>2</v6Rtti>
                 <VariousControls>
                   <MiscControls></MiscControls>
-                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
                 </VariousControls>
@@ -754,7 +754,7 @@
                 <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
-                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
                 </VariousControls>
@@ -810,7 +810,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -866,7 +866,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -922,7 +922,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -978,7 +978,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1034,7 +1034,7 @@
                 <v6Rtti>2</v6Rtti>
                 <VariousControls>
                   <MiscControls></MiscControls>
-                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
                 </VariousControls>
@@ -1052,7 +1052,7 @@
                 <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
-                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
                 </VariousControls>
@@ -1108,7 +1108,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1164,7 +1164,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1220,7 +1220,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1276,7 +1276,7 @@
                 <v6Rtti>2</v6Rtti>
                 <VariousControls>
                   <MiscControls></MiscControls>
-                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
                 </VariousControls>
@@ -1294,7 +1294,7 @@
                 <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
-                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                  <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
                 </VariousControls>
@@ -1350,7 +1350,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1406,7 +1406,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1462,7 +1462,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1518,7 +1518,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1574,7 +1574,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1630,7 +1630,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1686,7 +1686,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1742,7 +1742,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1798,7 +1798,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1859,7 +1859,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
@@ -1915,7 +1915,7 @@
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
-                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=1,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=0,DM9051_MH2203_USE_IRQ=0</Define>
+                      <Define>USE_STDPERIPH_DRIVER,MH2203_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_MH2203_USE_DMA=1,DM9051_MH2203_USE_IRQ=1</Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
