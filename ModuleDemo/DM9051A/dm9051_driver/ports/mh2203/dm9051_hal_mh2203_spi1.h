@@ -39,7 +39,7 @@ extern "C" {
 #endif
 
 #ifndef DM9051_MH2203_TRACE
-#define DM9051_MH2203_TRACE 1
+#define DM9051_MH2203_TRACE 0
 #endif
 
 #ifndef DM9051_MH2203_OWN_EXTI9_5_HANDLER
