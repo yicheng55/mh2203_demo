@@ -13,7 +13,7 @@
 
 #include "mh2203_board.h"
 #include "mh2203_uip_clock.h"
-#include "dm9051_uip_mh2203_smoke.h"
+#include "dm9051_uip_mh2203_demo.h"
 
 #include "../../core/inc/dm9051_core.h"
 #include "../../adapters/uip/dm9051_uip.h"
@@ -76,8 +76,8 @@ static void network_init(void)
 {
     int status;
 
-    status = dm9051_uip_mh2203_smoke_open(dm9051_demo_mac);
-    g_eth = dm9051_uip_mh2203_smoke_eth();
+    status = dm9051_uip_mh2203_demo_open(dm9051_demo_mac);
+    g_eth = dm9051_uip_mh2203_demo_eth();
 
     printf("[DM9051 uIP] MH2203 staged uIP demo start\r\n");
     printf("[DM9051 uIP] open status=%d found=%d VID=0x%04X PID=0x%04X CHIPR=0x%02X\r\n",

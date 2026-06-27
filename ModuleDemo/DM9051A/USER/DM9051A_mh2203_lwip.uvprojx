@@ -1119,9 +1119,9 @@
               </FileOption>
             </File>
             <File>
-              <FileName>dm9051_uip_mh2203_smoke.c</FileName>
+              <FileName>dm9051_uip_mh2203_demo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\dm9051_driver\examples\uip_mh2203_demo\dm9051_uip_mh2203_smoke.c</FilePath>
+              <FilePath>..\dm9051_driver\examples\uip_mh2203_demo\dm9051_uip_mh2203_demo.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>

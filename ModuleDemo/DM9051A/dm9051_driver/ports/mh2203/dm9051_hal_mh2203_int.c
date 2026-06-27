@@ -122,4 +122,44 @@ void EXTI9_5_IRQHandler(void)
 }
 #endif
 
+#else /* !DM9051_MH2203_ENABLE_IRQ — provide no-op stubs so the linker is satisfied */
+
+void dm9051_mh2203_irq_init_if_enabled(const dm9051_mh2203_config_t *config)
+{
+    (void)config;
+}
+
+void dm9051_mh2203_irq_enable_if_enabled(void *ctx)
+{
+    (void)ctx;
+}
+
+void dm9051_mh2203_irq_disable_if_enabled(void *ctx)
+{
+    (void)ctx;
+}
+
+void dm9051_mh2203_irq_attach_device(dm9051_device_t *dev)
+{
+    (void)dev;
+}
+
+void dm9051_mh2203_irq_detach_device(void)
+{
+}
+
+uint32_t dm9051_mh2203_irq_line(void)
+{
+    return 0;
+}
+
+uint32_t dm9051_mh2203_irq_count(void)
+{
+    return 0;
+}
+
+void dm9051_mh2203_irq_handler(void)
+{
+}
+
 #endif /* DM9051_MH2203_ENABLE_IRQ */

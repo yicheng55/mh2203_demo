@@ -54,9 +54,8 @@ MH2203 SPI / GPIO / IRQ / Delay
 | `adapters/uip/dm9051_uip_stack.h` | 宣告 uIP stack 整合 API。 | uIP stack 介面 |
 | `examples/lwip_mh2203_demo/main_dm9051_lwip_example.c` | 示範 MH2203 + DM9051 + lwIP 的初始化與執行方式。 | lwIP 範例應用 |
 | `examples/uip_mh2203_demo/main_uip_mh2203_demo.c` | 示範 MH2203 + DM9051 + uIP 的主要 demo 流程。 | uIP 範例應用 |
-| `examples/uip_mh2203_demo/main_uip_mh2203_smoke.c` | 用於基本 smoke test，驗證 staged driver 可完成初始化與 chip ID 探測。 | 驅動驗證範例 |
-| `examples/uip_mh2203_demo/dm9051_uip_mh2203_smoke.c` | 綁定 MH2203 HAL/device pair，執行 DM9051 core open 測試。 | uIP smoke glue |
-| `examples/uip_mh2203_demo/dm9051_uip_mh2203_smoke.h` | 宣告 smoke test 支援 API。 | 測試支援介面 |
+| `examples/uip_mh2203_demo/dm9051_uip_mh2203_demo.c` | 綁定 MH2203 HAL/device pair，執行 DM9051 core open 測試。 | uIP demo glue |
+| `examples/uip_mh2203_demo/dm9051_uip_mh2203_demo.h` | 宣告 demo 支援 API。 | demo 支援介面 |
 | `Makefile` | 提供 staged driver 的建置規則或檔案選擇參考。 | 建置輔助 |
 | `README.md` | 說明目前 staged driver 的分層、來源對應與重構狀態。 | 專案說明文件 |
 

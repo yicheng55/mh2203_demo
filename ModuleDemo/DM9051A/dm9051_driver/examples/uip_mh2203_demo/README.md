@@ -8,7 +8,7 @@ staged uIP adapter，跑完整 app（web + DHCP + DNS + TCP/UDP appcall）。
 | 檔案 | 角色 |
 |---|---|
 | `main_uip_mh2203_demo.c` | 整合入口：platform init → open → uIP stack init → httpd_init → 主迴圈 |
-| `dm9051_uip_mh2203_smoke.c/.h` | port 開啟膠合：`_open(mac)` (HAL bind + core_open) / `_eth()` / `_init` 純探測 |
+| `dm9051_uip_mh2203_demo.c/.h` | port 開啟膠合：`_open(mac)` (HAL bind + core_open) / `_eth()` / `_init` 純探測 |
 
 主迴圈每圈呼叫 `dm9051_uip_link_poll()` 與 `dm9051_uip_stack_poll()`。
 uIP 計時基準由 port 的 `mh2203_uip_tick_init()` + SysTick (`mh2203_uip_clock.c`) 驅動。
