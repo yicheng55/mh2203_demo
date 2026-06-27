@@ -27,7 +27,7 @@ const dm9051_hal_ops_t dm9051_mh2203_polling_ops = {
 
 static dm9051_mh2203_config_t dm9051_mh2203_bound_config;
 
-static void dm9051_mh2203_select(void)
+void dm9051_mh2203_select(void)
 {
     if (dm9051_mh2203_bound_config.pins.cs_port != 0U) {
         GPIO_ResetBits((GPIO_TypeDef*)dm9051_mh2203_bound_config.pins.cs_port,
@@ -35,7 +35,7 @@ static void dm9051_mh2203_select(void)
     }
 }
 
-static void dm9051_mh2203_deselect(void)
+void dm9051_mh2203_deselect(void)
 {
     if (dm9051_mh2203_bound_config.pins.cs_port != 0U) {
         GPIO_SetBits((GPIO_TypeDef*)dm9051_mh2203_bound_config.pins.cs_port,
