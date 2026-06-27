@@ -12,25 +12,18 @@ static void configure_debug_uart(uint32_t baudrate)
     USART_InitTypeDef usart;
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
-
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = GPIO_Pin_2;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_AF_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOA, &gpio);
 
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = GPIO_Pin_3;
-    gpio.GPIO_Mode = GPIO_Mode_AF;
+    gpio.GPIO_Mode = GPIO_Mode_IPU;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    gpio.GPIO_OType = GPIO_OType_PP;
-    gpio.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_Init(GPIOA, &gpio);
 
     USART_StructInit(&usart);
@@ -64,7 +57,7 @@ void mh2203_uip_clock_init(void)
 
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
     RCC_HCLKConfig(RCC_SYSCLK_Div1);
-    RCC_PCLKConfig(RCC_HCLK_Div1);
+    RCC_PCLK1Config(RCC_HCLK_Div1);
 }
 
 void mh2203_uip_board_init(uint32_t baudrate)
@@ -80,7 +73,7 @@ void mh2203_uip_board_init(uint32_t baudrate)
     printf("[MH2203 uIP] SYSCLK=%lu HCLK=%lu PCLK=%lu\r\n",
            clocks.SYSCLK_Frequency,
            clocks.HCLK_Frequency,
-           clocks.PCLK_Frequency);
+           clocks.PCLK1_Frequency);
 }
 
 int SER_PutChar(int ch)

@@ -30,7 +30,7 @@ static dm9051_mh2203_config_t dm9051_mh2203_bound_config;
 static void dm9051_mh2203_select(void)
 {
     if (dm9051_mh2203_bound_config.pins.cs_port != 0U) {
-        GPIO_ResetBits(dm9051_mh2203_bound_config.pins.cs_port,
+        GPIO_ResetBits((GPIO_TypeDef*)dm9051_mh2203_bound_config.pins.cs_port,
                        dm9051_mh2203_bound_config.pins.cs_pin);
     }
 }
@@ -38,7 +38,7 @@ static void dm9051_mh2203_select(void)
 static void dm9051_mh2203_deselect(void)
 {
     if (dm9051_mh2203_bound_config.pins.cs_port != 0U) {
-        GPIO_SetBits(dm9051_mh2203_bound_config.pins.cs_port,
+        GPIO_SetBits((GPIO_TypeDef*)dm9051_mh2203_bound_config.pins.cs_port,
                      dm9051_mh2203_bound_config.pins.cs_pin);
     }
 }
