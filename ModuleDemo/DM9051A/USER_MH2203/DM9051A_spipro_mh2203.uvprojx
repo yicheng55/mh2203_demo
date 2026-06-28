@@ -385,9 +385,9 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>mh20xx_it.c</FileName>
+              <FileName>mh22xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bsp_mh2203\mh20xx_it.c</FilePath>
+              <FilePath>..\bsp_mh2203\mh22xx_it.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -1549,9 +1549,9 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>mh20xx_it.c</FileName>
+              <FileName>mh22xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bsp_mh2203\mh20xx_it.c</FilePath>
+              <FilePath>..\bsp_mh2203\mh22xx_it.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -2662,9 +2662,9 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>mh20xx_it.c</FileName>
+              <FileName>mh22xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bsp_mh2203\mh20xx_it.c</FilePath>
+              <FilePath>..\bsp_mh2203\mh22xx_it.c</FilePath>
             </File>
             <File>
               <FileName>system_mh22xx.c</FileName>
@@ -3346,9 +3346,9 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>mh20xx_it.c</FileName>
+              <FileName>mh22xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bsp_mh2203\mh20xx_it.c</FilePath>
+              <FilePath>..\bsp_mh2203\mh22xx_it.c</FilePath>
             </File>
             <File>
               <FileName>system_mh22xx.c</FileName>
@@ -4081,9 +4081,9 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>mh20xx_it.c</FileName>
+              <FileName>mh22xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bsp_mh2203\mh20xx_it.c</FilePath>
+              <FilePath>..\bsp_mh2203\mh22xx_it.c</FilePath>
             </File>
             <File>
               <FileName>system_mh22xx.c</FileName>

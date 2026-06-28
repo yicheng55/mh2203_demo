@@ -386,9 +386,9 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>mh20xx_it.c</FileName>
+              <FileName>mh22xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\mh20xx_it.c</FilePath>
+              <FilePath>.\mh22xx_it.c</FilePath>
             </File>
             <File>
               <FileName>system_mh20xx.c</FileName>
