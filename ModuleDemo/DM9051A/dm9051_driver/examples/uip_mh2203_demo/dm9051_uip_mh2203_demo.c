@@ -2,23 +2,23 @@
 #include "../../ports/mh2203/dm9051_hal_mh2203_spi1.h"
 #include "../../core/inc/dm9051_core.h"
 #include "../../hal/inc/dm9051_hal.h"
-#if DM9051_MH2203_USE_IRQ
+#if DM9051_USE_IRQ
 #include "../../ports/mh2203/dm9051_hal_mh2203_int.h"
 #endif
 #include "mh2203_board.h"
 
 #include <stdio.h>
 
-#if DM9051_MH2203_USE_DMA
-#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_MH2203_USE_DMA=1")
+#if DM9051_USE_DMA
+#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_USE_DMA=1")
 #else
-#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_MH2203_USE_DMA=0")
+#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_USE_DMA=0")
 #endif
 
-#if DM9051_MH2203_USE_IRQ
-#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_MH2203_USE_IRQ=1")
+#if DM9051_USE_IRQ
+#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_USE_IRQ=1")
 #else
-#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_MH2203_USE_IRQ=0")
+#pragma message("[DM9051 MH2203 uIP build] demo: DM9051_USE_IRQ=0")
 #endif
 
 /* netif 私有資料 (dev + hal + rx/tx buffer)，供 uIP stack 共用。 */
@@ -60,7 +60,7 @@ int dm9051_uip_mh2203_demo_open(const uint8_t *mac_addr)
 
     dm9051_core_default_config(&core_config);
     core_config.mac_addr = mac_addr;
-#if DM9051_MH2203_USE_IRQ
+#if DM9051_USE_IRQ
     core_config.interrupt_mode = DM9051_INPUT_MODE_INTERRUPT;
 #else
     core_config.interrupt_mode = DM9051_INPUT_MODE_POLL;
@@ -68,12 +68,12 @@ int dm9051_uip_mh2203_demo_open(const uint8_t *mac_addr)
     core_config.flow_control = 0u;
 
     dm9051_mh2203_default_config(&port_config);
-#if DM9051_MH2203_USE_DMA
+#if DM9051_USE_DMA
     port_config.transport = DM9051_MH2203_TRANSPORT_DMA;
 #else
     port_config.transport = DM9051_MH2203_TRANSPORT_POLLING;
 #endif
-#if DM9051_MH2203_USE_IRQ
+#if DM9051_USE_IRQ
     port_config.irq_mode = DM9051_MH2203_IRQ_EXTI;
 #else
     port_config.irq_mode = DM9051_MH2203_IRQ_OFF;
@@ -86,14 +86,14 @@ int dm9051_uip_mh2203_demo_open(const uint8_t *mac_addr)
         return s_demo_status;
     }
 
-#if DM9051_MH2203_USE_IRQ
+#if DM9051_USE_IRQ
     dm9051_mh2203_irq_attach_device(&s_demo_eth_inst.dev);
 #endif
 
     s_demo_status = dm9051_core_open(&s_demo_eth_inst.dev,
                                      &core_config,
                                      &s_demo_eth_inst.hal);
-#if DM9051_MH2203_USE_IRQ
+#if DM9051_USE_IRQ
     if (s_demo_status != DM9051_OK) {
         dm9051_mh2203_irq_detach_device();
     }

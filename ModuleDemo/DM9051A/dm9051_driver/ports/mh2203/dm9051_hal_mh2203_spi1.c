@@ -11,16 +11,16 @@
 
 #include <stdio.h>
 
-#if DM9051_MH2203_ENABLE_DMA
-#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_DMA=1")
+#if DM9051_ENABLE_DMA
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_ENABLE_DMA=1")
 #else
-#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_DMA=0")
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_ENABLE_DMA=0")
 #endif
 
-#if DM9051_MH2203_ENABLE_IRQ
-#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_IRQ=1")
+#if DM9051_ENABLE_IRQ
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_ENABLE_IRQ=1")
 #else
-#pragma message("[DM9051 MH2203 build] spi1: DM9051_MH2203_ENABLE_IRQ=0")
+#pragma message("[DM9051 MH2203 build] spi1: DM9051_ENABLE_IRQ=0")
 #endif
 
 const dm9051_hal_ops_t dm9051_mh2203_polling_ops = {
@@ -456,13 +456,13 @@ int dm9051_mh2203_hal_bind(dm9051_hal_t *hal,
         return DM9051_HAL_ERR_PARAM;
     }
 
-#if !DM9051_MH2203_ENABLE_DMA
+#if !DM9051_ENABLE_DMA
     if (config->transport == DM9051_MH2203_TRANSPORT_DMA) {
         return DM9051_HAL_ERR_NOT_READY;
     }
 #endif
 
-#if !DM9051_MH2203_ENABLE_IRQ
+#if !DM9051_ENABLE_IRQ
     if (config->irq_mode == DM9051_MH2203_IRQ_EXTI) {
         return DM9051_HAL_ERR_NOT_READY;
     }
@@ -476,7 +476,7 @@ int dm9051_mh2203_hal_bind(dm9051_hal_t *hal,
         return DM9051_HAL_OK;
     }
 
-#if DM9051_MH2203_ENABLE_DMA
+#if DM9051_ENABLE_DMA
     hal->ops = &dm9051_mh2203_dma_ops;
     return DM9051_HAL_OK;
 #else

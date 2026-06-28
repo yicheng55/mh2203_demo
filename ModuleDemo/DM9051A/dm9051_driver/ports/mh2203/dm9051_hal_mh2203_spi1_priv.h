@@ -60,7 +60,7 @@ int dm9051_mh2203_polling_write_mem(void *ctx,
                                      const uint8_t *buf,
                                      uint16_t len);
 
-#if DM9051_MH2203_ENABLE_DMA
+#if DM9051_ENABLE_DMA
 extern const dm9051_hal_ops_t dm9051_mh2203_dma_ops;
 #endif
 

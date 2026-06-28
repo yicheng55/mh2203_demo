@@ -60,11 +60,11 @@ int dm9051_mh2030a_polling_write_mem(void *ctx,
                                      const uint8_t *buf,
                                      uint16_t len);
 
-#if DM9051_MH2030A_ENABLE_DMA
+#if DM9051_ENABLE_DMA
 extern const dm9051_hal_ops_t dm9051_mh2030a_dma_ops;
 #endif
 
-#if DM9051_MH2030A_ENABLE_IRQ
+#if DM9051_ENABLE_IRQ
 void dm9051_mh2030a_irq_init_if_enabled(const dm9051_mh2030a_config_t *config);
 void dm9051_mh2030a_irq_enable_if_enabled(void *ctx);
 void dm9051_mh2030a_irq_disable_if_enabled(void *ctx);

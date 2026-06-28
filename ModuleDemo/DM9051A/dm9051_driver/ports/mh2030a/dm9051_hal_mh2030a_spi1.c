@@ -444,13 +444,13 @@ int dm9051_mh2030a_hal_bind(dm9051_hal_t *hal,
         return DM9051_HAL_ERR_PARAM;
     }
 
-#if !DM9051_MH2030A_ENABLE_DMA
+#if !DM9051_ENABLE_DMA
     if (config->transport == DM9051_MH2030A_TRANSPORT_DMA) {
         return DM9051_HAL_ERR_NOT_READY;
     }
 #endif
 
-#if !DM9051_MH2030A_ENABLE_IRQ
+#if !DM9051_ENABLE_IRQ
     if (config->irq_mode == DM9051_MH2030A_IRQ_EXTI) {
         return DM9051_HAL_ERR_NOT_READY;
     }
@@ -464,7 +464,7 @@ int dm9051_mh2030a_hal_bind(dm9051_hal_t *hal,
         return DM9051_HAL_OK;
     }
 
-#if DM9051_MH2030A_ENABLE_DMA
+#if DM9051_ENABLE_DMA
     hal->ops = &dm9051_mh2030a_dma_ops;
     return DM9051_HAL_OK;
 #else

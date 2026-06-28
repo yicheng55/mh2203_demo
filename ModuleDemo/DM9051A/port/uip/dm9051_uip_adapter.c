@@ -31,7 +31,7 @@ const char *dm9051_netif_target_mode(void)
 {
 #if defined(DMPLUG_INT)
     return "interrupt";
-#elif defined(MH2030A_DM9051_SPI_DMA)
+#elif defined(DM9051_SPI_DMA)
     return "spi dma";
 #else
     return "polling";

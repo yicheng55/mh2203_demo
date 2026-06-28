@@ -1,4 +1,4 @@
-#ifndef MH2030A_UIP_PORT
+#ifndef DM9051_UIP_PORT
 
 #include "mh2030a_spi1.h"
 #include "delay.h"
@@ -427,4 +427,4 @@ void DM9051A_WriteMac(const uint8_t mac[6])
     DM9051A_WriteRegBuf(DM9051A_PAR, mac, 6);
 }
 
-#endif /* MH2030A_UIP_PORT */
+#endif /* DM9051_UIP_PORT */

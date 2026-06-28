@@ -2719,7 +2719,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,MH2030A_UIP_PORT</Define>
+              <Define>USE_STDPERIPH_DRIVER,DM9051_UIP_PORT</Define>
               <Undefine></Undefine>
               <IncludePath>..\SYSTEM\delay;..\USER;..\bsp;..\..\..\Libraries\MH20xxLib\inc;..\..\..\Libraries\CMSIS\Include;..\..\..\middlewares\3rd_party\uip\inc;..\..\..\middlewares\3rd_party\uip\port\at32f415_dm9051;..\..\..\apps\uip_dm9051_example_e1\example_uip\inc;..\..\..\apps\uip_dm9051_example_e1\uip_conf_inc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\dhcpc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\resolv;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\webserver\inc;..\..\..\drivers\dm9051_edriver_v1.6.1a_beta;..\port\mh2030a;..\port\uip</IncludePath>
             </VariousControls>
@@ -3557,7 +3557,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,MH2030A_UIP_PORT,MH2030A_DM9051_SPI_DMA</Define>
+              <Define>USE_STDPERIPH_DRIVER,DM9051_UIP_PORT,MH2030A_DM9051_SPI_DMA</Define>
               <Undefine></Undefine>
               <IncludePath>..\SYSTEM\delay;..\USER;..\bsp;..\..\..\Libraries\MH20xxLib\inc;..\..\..\Libraries\CMSIS\Include;..\..\..\middlewares\3rd_party\uip\inc;..\..\..\middlewares\3rd_party\uip\port\at32f415_dm9051;..\..\..\apps\uip_dm9051_example_e1\example_uip\inc;..\..\..\apps\uip_dm9051_example_e1\uip_conf_inc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\dhcpc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\resolv;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\webserver\inc;..\..\..\drivers\dm9051_edriver_v1.6.1a_beta;..\port\mh2030a;..\port\uip</IncludePath>
             </VariousControls>
@@ -4497,7 +4497,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,MH2030A_UIP_PORT,DMPLUG_INT</Define>
+              <Define>USE_STDPERIPH_DRIVER,DM9051_UIP_PORT,DMPLUG_INT</Define>
               <Undefine></Undefine>
               <IncludePath>..\SYSTEM\delay;..\USER;..\bsp;..\..\..\Libraries\MH20xxLib\inc;..\..\..\Libraries\CMSIS\Include;..\..\..\middlewares\3rd_party\uip\inc;..\..\..\middlewares\3rd_party\uip\port\at32f415_dm9051;..\..\..\apps\uip_dm9051_example_e1\example_uip\inc;..\..\..\apps\uip_dm9051_example_e1\uip_conf_inc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\dhcpc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\resolv;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\webserver\inc;..\..\..\drivers\dm9051_edriver_v1.6.1a_beta;..\port\mh2030a;..\port\uip</IncludePath>
             </VariousControls>

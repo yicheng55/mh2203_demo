@@ -10,7 +10,7 @@
 #include "../../core/inc/dm9051_core.h"
 #include "../../hal/inc/dm9051_hal.h"
 #include "../../ports/mh2030a/dm9051_hal_mh2030a_spi1.h"
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
 #include "../../ports/mh2030a/dm9051_hal_mh2030a_int.h"
 #endif
 
@@ -42,7 +42,7 @@ int dm9051_uip_mh2030a_smoke_open(const uint8_t *mac_addr)
 
     dm9051_core_default_config(&core_config);
     core_config.mac_addr = mac_addr;
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     core_config.interrupt_mode = DM9051_INPUT_MODE_INTERRUPT;
 #else
     core_config.interrupt_mode = DM9051_INPUT_MODE_POLL;
@@ -50,12 +50,12 @@ int dm9051_uip_mh2030a_smoke_open(const uint8_t *mac_addr)
     core_config.flow_control = 0u;
 
     dm9051_mh2030a_default_config(&port_config);
-#if DM9051_MH2030A_USE_DMA
+#if DM9051_USE_DMA
     port_config.transport = DM9051_MH2030A_TRANSPORT_DMA;
 #else
     port_config.transport = DM9051_MH2030A_TRANSPORT_POLLING;
 #endif
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     port_config.irq_mode = DM9051_MH2030A_IRQ_EXTI;
 #else
     port_config.irq_mode = DM9051_MH2030A_IRQ_OFF;
@@ -69,7 +69,7 @@ int dm9051_uip_mh2030a_smoke_open(const uint8_t *mac_addr)
         return dm9051_uip_mh2030a_smoke_status;
     }
 
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     dm9051_mh2030a_irq_attach_device(&s_smoke_eth_inst.dev);
 #endif
 
@@ -77,7 +77,7 @@ int dm9051_uip_mh2030a_smoke_open(const uint8_t *mac_addr)
         dm9051_core_open(&s_smoke_eth_inst.dev,
                          &core_config,
                          &s_smoke_eth_inst.hal);
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     if (dm9051_uip_mh2030a_smoke_status != DM9051_OK) {
         dm9051_mh2030a_irq_detach_device();
     }

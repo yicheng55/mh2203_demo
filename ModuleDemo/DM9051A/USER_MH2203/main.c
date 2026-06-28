@@ -1,4 +1,4 @@
-#ifndef MH2030A_UIP_PORT
+#ifndef DM9051_UIP_PORT
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -175,4 +175,4 @@ int fputc(int ch, FILE *f)
     return SER_PutChar(ch);
 }
 
-#endif /* MH2030A_UIP_PORT */
+#endif /* DM9051_UIP_PORT */

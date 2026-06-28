@@ -114,7 +114,7 @@ static void low_level_init(struct netif *netif)
     dm9051_core_default_config(&core_config);
     core_config.mac_addr = netif->hwaddr;
 
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     core_config.interrupt_mode = DM9051_INPUT_MODE_INTERRUPT;
 #else
     core_config.interrupt_mode = DM9051_INPUT_MODE_POLL;
@@ -123,12 +123,12 @@ static void low_level_init(struct netif *netif)
 
     /* --- Platform port config --- */
     dm9051_mh2030a_default_config(&port_config);
-#if DM9051_MH2030A_USE_DMA
+#if DM9051_USE_DMA
     port_config.transport = DM9051_MH2030A_TRANSPORT_DMA;
 #else
     port_config.transport = DM9051_MH2030A_TRANSPORT_POLLING;
 #endif
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     port_config.irq_mode = DM9051_MH2030A_IRQ_EXTI;
 #else
     port_config.irq_mode = DM9051_MH2030A_IRQ_OFF;
@@ -141,7 +141,7 @@ static void low_level_init(struct netif *netif)
         return;
     }
 
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
     dm9051_mh2030a_irq_attach_device(&eth->dev);
 #endif
 
@@ -149,7 +149,7 @@ static void low_level_init(struct netif *netif)
     status = dm9051_core_open(&eth->dev, &core_config, &eth->hal);
     if (status != DM9051_OK) {
         ETHERNETIF_PRINTF("[etherif] core_open failed (%d)\r\n", status);
-#if DM9051_MH2030A_USE_IRQ
+#if DM9051_USE_IRQ
         dm9051_mh2030a_irq_detach_device();
 #endif
         return;

@@ -3,7 +3,7 @@
 
 #include "../../core/inc/dm9051_core.h"
 
-#if DM9051_MH2030A_ENABLE_IRQ
+#if DM9051_ENABLE_IRQ
 
 static volatile dm9051_device_t *dm9051_mh2030a_irq_device;
 static volatile uint32_t dm9051_mh2030a_irq_event_count;
@@ -118,4 +118,4 @@ void EXTI4_15_IRQHandler(void)
 }
 #endif
 
-#endif /* DM9051_MH2030A_ENABLE_IRQ */
+#endif /* DM9051_ENABLE_IRQ */

@@ -1,7 +1,7 @@
 #include "dm9051_hal_mh2030a_spi1_dma.h"
 #include "dm9051_hal_mh2030a_spi1_priv.h"
 
-#if DM9051_MH2030A_ENABLE_DMA
+#if DM9051_ENABLE_DMA
 
 #define DM9051_MH2030A_RX_DMA       DMA1_Channel2
 #define DM9051_MH2030A_TX_DMA       DMA1_Channel3
@@ -239,4 +239,4 @@ const dm9051_hal_ops_t dm9051_mh2030a_dma_ops = {
     dm9051_mh2030a_exit_critical
 };
 
-#endif /* DM9051_MH2030A_ENABLE_DMA */
+#endif /* DM9051_ENABLE_DMA */
