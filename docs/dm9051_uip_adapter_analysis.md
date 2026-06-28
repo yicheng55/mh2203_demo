@@ -173,7 +173,7 @@ dm9051_driver/
 | `dm9051_uip_stack.h` | Stack loop header — 提供 init + poll |
 | `dm9051_uip_stack.c` | uIP stack 整合 loop — RX drain, periodic, ARP |
 
-**當前狀態**: `staging` (`dm9051_uip_target_mode()` 回傳 `"staging"`)。
+**當前狀態**: `dm9051_uip_target_mode()` 依實際 `runtime.config.interrupt_mode` 回傳模式字串：`"polling"`（interrupt 關閉）、`"interrupt"`、`"interrupt+clkout"`；未 attach 裝置時回 `"polling"`。
 
 ---
 
