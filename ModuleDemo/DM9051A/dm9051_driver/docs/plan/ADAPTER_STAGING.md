@@ -12,7 +12,7 @@ The production uIP adapter remains unchanged.
 | uIP | `dm9051_uip_input(buf, len)` | Calls `dm9051_core_receive()` on the attached device. No uIP packet dispatch yet. |
 | uIP | `dm9051_uip_output(buf, len)` | Calls `dm9051_core_send()` on the attached device. No uIP packet queue integration yet. |
 | uIP | `dm9051_uip_poll()` | No-op. |
-| uIP | `dm9051_uip_target_mode()` | Returns `"staging"`. |
+| uIP | `dm9051_uip_target_mode()` | Returns the active input mode string from `dm9051_uip_interrupt_mode()`: `"polling"` (interrupt off / no device), `"interrupt"`, or `"interrupt+clkout"`. |
 | lwIP | (removed — `dm9051_lwip.c/h` deleted in favor of direct `ethernetif.c/h` API) | — |
 
 `dm9051_netif_device_is_valid()` is intentionally permissive at this stage. It

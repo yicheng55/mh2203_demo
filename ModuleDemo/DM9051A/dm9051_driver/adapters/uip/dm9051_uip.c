@@ -126,5 +126,14 @@ int dm9051_uip_link_poll(struct uip_ethernetif *eth)
 
 const char *dm9051_uip_target_mode(void)
 {
-    return "staging";
+    /* 依實際 interrupt 設定回報模式：interrupt 關閉時顯示 polling。 */
+    switch (dm9051_uip_interrupt_mode()) {
+    case DM9051_INPUT_MODE_INTERRUPT:
+        return "interrupt";
+    case DM9051_INPUT_MODE_INTERRUPT_CLKOUT:
+        return "interrupt+clkout";
+    case DM9051_INPUT_MODE_POLL:
+    default:
+        return "polling";
+    }
 }
