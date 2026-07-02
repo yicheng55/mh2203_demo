@@ -91,9 +91,26 @@ int SER_PutChar(int ch)
     return ch;
 }
 
+static mh2030a_board_putchar_fn console_sink_putchar;
+static mh2030a_board_ready_fn console_sink_ready;
+
+void mh2030a_board_set_console_sink(mh2030a_board_putchar_fn putchar_fn,
+                                     mh2030a_board_ready_fn ready_fn)
+{
+    console_sink_putchar = putchar_fn;
+    console_sink_ready = ready_fn;
+}
+
 int fputc(int ch, FILE *f)
 {
     (void)f;
+    if ((console_sink_putchar != 0) && (console_sink_ready != 0) && console_sink_ready()) {
+        if (ch == '\n') {
+            console_sink_putchar('\r');
+        }
+        return console_sink_putchar(ch);
+    }
+
     if (ch == '\n') {
         SER_PutChar('\r');
     }
