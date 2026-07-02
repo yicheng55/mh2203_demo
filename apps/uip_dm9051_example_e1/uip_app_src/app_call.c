@@ -1,6 +1,7 @@
 //#include "includes.h"
 #include <stdio.h>
 #include "uip.h"
+#include "udp_printf.h"
 
 #if 0
 	//#include "app_call.h"
@@ -10,7 +11,7 @@
 
 void tcp_appcall(void)
 {
-	/* Local Port */     ////²âÊÔ·þÎñ¶ËÊý¾ÝµÄÊÕ·¢
+	/* Local Port */     ////ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Õ·ï¿½
 	switch(uip_conn->lport)
 	{
 		#if WEB_EN
@@ -32,7 +33,7 @@ void tcp_appcall(void)
 		default:
 			break;
 	}
-	/* Remote Port */ ////²âÊÔ¿Í»§¶ËÊý¾ÝµÄÊÕ·¢²âÊÔ
+	/* Remote Port */ ////ï¿½ï¿½ï¿½Ô¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Õ·ï¿½ï¿½ï¿½ï¿½ï¿½
 	switch(uip_conn->rport)
 	{
 		case HTONS(5002):
@@ -50,7 +51,7 @@ void tcp_appcall(void)
 #if UIP_UDP
 void udp_appcall(void)
 {	
-	/* UDP Remote Port	*/ // 67 68 ÓÃÓÚDHCP
+	/* UDP Remote Port	*/ // 67 68 ï¿½ï¿½ï¿½ï¿½DHCP
  switch (uip_udp_conn->rport){
 	#if DHCPC_EN
 	/* need uncommented to use and/or need debug.
@@ -76,14 +77,7 @@ void udp_appcall(void)
 	/* UDP Local Port	*/
 	switch (uip_udp_conn->lport){
 		case HTONS(1600): //Received UDP listen port
-			/*
-			 * can not here!
-			dhcpc_appcall();
-			 */
-			printf("udp_recv listenport %d\r\n", 1600);
-#if 0
-		    udp_recv_appcall();
-#endif
+			udp_printf_appcall();
 			break;
 
 		case HTONS(1800):

@@ -18,7 +18,9 @@
 #include "../../core/inc/dm9051_core.h"
 #include "../../adapters/uip/dm9051_uip.h"
 #include "../../adapters/uip/dm9051_uip_stack.h"
+#include "uip.h"
 #include "app_call.h"
+#include "udp_printf.h"
 
 #include <stdio.h>
 
@@ -100,6 +102,10 @@ static void network_init(void)
         }
     }
 
+#if UIP_UDP
+    udp_printf_init();
+#endif
+
 #if WEB_EN
     httpd_init();
     printf("[DM9051 uIP] HTTP server listening on port 80\r\n");
@@ -116,6 +122,10 @@ int main(void)
     while (1) {
         int link_up = dm9051_uip_link_poll(g_eth);
 
+#if UIP_UDP
+        udp_printf_set_link(link_up);
+#endif
+
         if (link_up != prev_link) {
             printf("[DM9051 uIP] Link %s\r\n",
                    link_up ? "UP" : "DOWN");
@@ -123,5 +133,11 @@ int main(void)
         }
 
         dm9051_uip_stack_poll();
+
+#if UIP_UDP
+        if (udp_printf_has_pending()) {
+            dm9051_uip_stack_udp_poke(udp_printf_get_conn());
+        }
+#endif
     }
 }

@@ -1,5 +1,6 @@
 #include "mh2203_board.h"
 #include "mh2203_platform.h"
+#include "udp_printf.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -87,6 +88,18 @@ int SER_PutChar(int ch)
 int fputc(int ch, FILE *f)
 {
     (void)f;
+
+#if PRINTF_DEBUG_OUTPUT == PRINTF_DEBUG_OUTPUT_UDP
+    /* 尚未有 UDP peer (udp_printf_is_ready()==0) 時退回 UART，
+     * 避免開機/連線建立階段的診斷訊息在對端連上前被吃掉。 */
+    if (udp_printf_is_ready()) {
+        if (ch == '\n') {
+            udp_printf_putchar('\r');
+        }
+        return udp_printf_putchar(ch);
+    }
+#endif
+
     if (ch == '\n') {
         SER_PutChar('\r');
     }

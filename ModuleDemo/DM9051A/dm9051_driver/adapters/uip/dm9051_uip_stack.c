@@ -12,6 +12,7 @@
 #include "uip.h"
 #include "uip_arp.h"
 #include "timer.h"
+#include "udp_printf.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -57,8 +58,28 @@ static void dm9051_uip_stack_send_if_needed(void)
     if (uip_len > 0u) {
         uip_arp_out();
         (void)dm9051_uip_output(uip_buf, uip_len);
+        /* udp_printf_putchar() 在排隊送出前會鎖定 output_active，
+         * 必須在實際幀送出後解鎖，否則第一筆之後全部被吃掉。 */
+        udp_printf_output_done();
     }
 }
+
+#if UIP_UDP
+void dm9051_uip_stack_udp_poke(struct uip_udp_conn *conn)
+{
+    if (conn == NULL) {
+        return;
+    }
+
+    uip_udp_periodic_conn(conn);
+    dm9051_uip_stack_send_if_needed();
+}
+#else
+void dm9051_uip_stack_udp_poke(struct uip_udp_conn *conn)
+{
+    (void)conn;
+}
+#endif
 
 static int dm9051_uip_stack_drain_rx(void)
 {
