@@ -1461,6 +1461,11 @@
               </FileOption>
             </File>
             <File>
+              <FileName>udp_printf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\udp_printf\udp_printf.c</FilePath>
+            </File>
+            <File>
               <FileName>debug_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\debug_app\debug_app.c</FilePath>

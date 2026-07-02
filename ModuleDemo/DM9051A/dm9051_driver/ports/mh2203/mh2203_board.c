@@ -1,5 +1,6 @@
 #include "mh2203_board.h"
 #include "mh2203_platform.h"
+#include "udp_printf.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -87,6 +88,18 @@ int SER_PutChar(int ch)
 int fputc(int ch, FILE *f)
 {
     (void)f;
+
+#if PRINTF_DEBUG_OUTPUT == PRINTF_DEBUG_OUTPUT_UDP
+    if (udp_printf_is_ready()) {
+        if (ch == '\n') {
+            udp_printf_putchar('\r');
+        }
+        return udp_printf_putchar(ch);
+    }
+#elif PRINTF_DEBUG_OUTPUT != PRINTF_DEBUG_OUTPUT_UART
+#error "PRINTF_DEBUG_OUTPUT must be PRINTF_DEBUG_OUTPUT_UART or PRINTF_DEBUG_OUTPUT_UDP"
+#endif
+
     if (ch == '\n') {
         SER_PutChar('\r');
     }

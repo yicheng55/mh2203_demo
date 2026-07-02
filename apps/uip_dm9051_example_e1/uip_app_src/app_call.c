@@ -1,6 +1,7 @@
 //#include "includes.h"
 #include <stdio.h>
 #include "uip.h"
+#include "udp_printf.h"
 
 #if 0
 	//#include "app_call.h"
@@ -76,14 +77,7 @@ void udp_appcall(void)
 	/* UDP Local Port	*/
 	switch (uip_udp_conn->lport){
 		case HTONS(1600): //Received UDP listen port
-			/*
-			 * can not here!
-			dhcpc_appcall();
-			 */
-			printf("udp_recv listenport %d\r\n", 1600);
-#if 0
-		    udp_recv_appcall();
-#endif
+			udp_printf_appcall();
 			break;
 
 		case HTONS(1800):

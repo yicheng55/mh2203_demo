@@ -52,12 +52,34 @@ static uint8_t dm9051_uip_tcp_periodic_pending;
 static uint8_t dm9051_uip_udp_periodic_pending;
 #endif
 
+#if defined(__CC_ARM)
+__weak void udp_printf_output_done(void)
+#elif defined(__GNUC__)
+void udp_printf_output_done(void) __attribute__((weak));
+void udp_printf_output_done(void)
+#else
+void udp_printf_output_done(void)
+#endif
+{
+}
+
 static void dm9051_uip_stack_send_if_needed(void)
 {
     if (uip_len > 0u) {
         uip_arp_out();
         (void)dm9051_uip_output(uip_buf, uip_len);
+        udp_printf_output_done();
     }
+}
+
+void dm9051_uip_stack_poll_udp_conn(struct uip_udp_conn *conn)
+{
+    if (conn == 0) {
+        return;
+    }
+
+    uip_udp_periodic_conn(conn);
+    dm9051_uip_stack_send_if_needed();
 }
 
 static int dm9051_uip_stack_drain_rx(void)
@@ -80,6 +102,7 @@ static int dm9051_uip_stack_drain_rx(void)
             uip_arp_arpin();
             if (uip_len > 0u) {
                 (void)dm9051_uip_output(uip_buf, uip_len);
+                udp_printf_output_done();
             }
         }
 
