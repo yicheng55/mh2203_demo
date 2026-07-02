@@ -54,9 +54,15 @@ static uint8_t dm9051_uip_udp_periodic_pending;
 
 static void dm9051_uip_stack_send_if_needed(void)
 {
+    int tx_status;
+
     if (uip_len > 0u) {
         uip_arp_out();
-        (void)dm9051_uip_output(uip_buf, uip_len);
+        tx_status = dm9051_uip_output(uip_buf, uip_len);
+        if (tx_status != DM9051_OK) {
+            DM9051_UIP_DIAG_PRINTF("[DM9051 uIP] tx failed len=%u status=%d\r\n",
+                                   uip_len, tx_status);
+        }
     }
 }
 

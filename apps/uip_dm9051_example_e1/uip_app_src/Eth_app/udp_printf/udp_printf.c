@@ -138,10 +138,22 @@ static void udp_printf_send_one_line(void)
 
     len = udp_printf_queue_len[udp_printf_queue_head];
     if (len > 0) {
+        char dbg[255];
+
         memcpy(uip_appdata, udp_printf_queue[udp_printf_queue_head], len);
         uip_ipaddr_copy(udp_printf_conn->ripaddr, udp_printf_peer_addr);
         udp_printf_conn->rport = udp_printf_peer_port;
         uip_udp_send(len);
+
+        snprintf(dbg, sizeof(dbg),
+                 "[UDP printf] tx len=%u to %u.%u.%u.%u:%u\r\n",
+                 (unsigned)len,
+                 (unsigned)uip_ipaddr1(udp_printf_peer_addr),
+                 (unsigned)uip_ipaddr2(udp_printf_peer_addr),
+                 (unsigned)uip_ipaddr3(udp_printf_peer_addr),
+                 (unsigned)uip_ipaddr4(udp_printf_peer_addr),
+                 (unsigned)htons(udp_printf_peer_port));
+        udp_printf_status_uart(dbg);
     }
 
     udp_printf_queue_head++;
