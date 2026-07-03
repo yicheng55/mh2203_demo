@@ -159,6 +159,11 @@ int main(void)
 
         if (link_up != prev_link) {
             printf("[DM9051 uIP+ATCMD] Link %s\r\n", link_up ? "UP" : "DOWN");
+#if UIP_UDP
+            if (link_up) {
+                dm9051_uip_set_diag_output_udp(1);
+            }
+#endif
             prev_link = link_up;
         }
 
