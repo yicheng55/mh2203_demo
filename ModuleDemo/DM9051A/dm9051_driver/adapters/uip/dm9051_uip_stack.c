@@ -137,17 +137,18 @@ static void dm9051_uip_stack_print_rx_burst(const char *reason,
                                             int rx_burst,
                                             uint8_t drain_pending,
                                             uint16_t rx_len)
+{
     static int last_error_status = DM9051_OK;
     int rx_status;
 
     rx_status = dm9051_uip_last_rx_status();
     if (rx_burst > 0) {
         last_error_status = DM9051_OK;
-        DM9051_UIP_DIAG_PRINTF("[DM9051 uIP] rx burst=%d pending=%u status=%d reason=%s\r\n",
+        DM9051_UIP_DIAG_PRINTF("[DM9051 uIP] rx burst=%d pending=%u status=%d len=%u\r\n",
                                rx_burst,
                                drain_pending,
                                rx_status,
-                               reason);
+                               rx_len);
     } else if ((rx_status != DM9051_OK) &&
                (rx_status != DM9051_ERR_NOT_READY) &&
                (rx_status != last_error_status)) {
