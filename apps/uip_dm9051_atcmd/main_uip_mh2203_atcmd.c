@@ -112,6 +112,13 @@ static void network_init(void)
         }
     }
 
+    /* 搬自 AT32 SDK 的 EthernetInit_Done()：原本兩處呼叫點都被包在 #if 0，
+     * 導致 EthernetInitDoneFlag 永遠是 0，bridge_init() 的角色分派
+     * (ROLE 3 -> atcmd_tcpip_udplport() 建立 UDP Server 監聽) 永遠不會執行。
+     * 必須放在 udp_printf_init() 之前，因為它內部的 udp_init() 會清空
+     * 整個 uip_udp_conns[]，晚呼叫會把除錯用 UDP 連線也清掉。 */
+    EthernetInit_Done();
+
 #if UIP_UDP
     udp_printf_init();
 #endif
