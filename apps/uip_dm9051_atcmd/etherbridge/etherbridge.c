@@ -110,6 +110,22 @@ struct uip_udp_conn *udp_bridge_get_pending_tx_conn(void)
  */
 void uart_tx(uint8_t flag) 
 {
+    const char *proto = (flag == UIP_PROTO_TCP) ? "TCP" : "UDP";
+
+    if (flag == UIP_PROTO_TCP) {
+        printf("[ETH->UART] proto=%s len=%u src=%d.%d.%d.%d:%u lport=%u\r\n",
+            proto, u_txlen,
+            uip_ipaddr1(uip_conn->ripaddr), uip_ipaddr2(uip_conn->ripaddr),
+            uip_ipaddr3(uip_conn->ripaddr), uip_ipaddr4(uip_conn->ripaddr),
+            HTONS(uip_conn->rport), HTONS(uip_conn->lport));
+    } else if (flag == UIP_PROTO_UDP) {
+        printf("[ETH->UART] proto=%s len=%u src=%d.%d.%d.%d:%u lport=%u\r\n",
+            proto, u_txlen,
+            uip_ipaddr1(uip_udp_conn->ripaddr), uip_ipaddr2(uip_udp_conn->ripaddr),
+            uip_ipaddr3(uip_udp_conn->ripaddr), uip_ipaddr4(uip_udp_conn->ripaddr),
+            HTONS(uip_udp_conn->rport), HTONS(uip_udp_conn->lport));
+    }
+
 #ifdef ATCMD_USART_TX_DMA	
 	
 #ifdef ATCMD_UART_TX_DOUB_BUF
