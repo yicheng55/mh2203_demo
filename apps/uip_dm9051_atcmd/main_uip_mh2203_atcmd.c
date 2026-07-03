@@ -27,48 +27,30 @@
 
 #include <stdio.h>
 
-/* TODO: 待使用者提供正式靜態 IP/MAC；暫沿用 uip_mh2203_demo 佔位值，
- * 與既有 DM9051A_mh2203_uip.uvprojx 的預設值一致，方便先驗證連線。 */
-#define DM9051_UIP_IP0    192u
-#define DM9051_UIP_IP1    168u
-#define DM9051_UIP_IP2    249u
-#define DM9051_UIP_IP3    37u
-
-#define DM9051_UIP_GW0    192u
-#define DM9051_UIP_GW1    168u
-#define DM9051_UIP_GW2    249u
-#define DM9051_UIP_GW3    1u
-
-#define DM9051_UIP_MASK0  255u
-#define DM9051_UIP_MASK1  255u
-#define DM9051_UIP_MASK2  255u
-#define DM9051_UIP_MASK3  0u
-
-static const uint8_t dm9051_atcmd_mac[DM9051_MAC_ADDR_LENGTH] = {
-    0x00u, 0x60u, 0x6Eu, 0x90u, 0x51u, 0x01u
-};
-
 static struct uip_ethernetif *g_eth;
 static dm9051_netif_device_t g_netif;
 
+/* MAC/IP/mask/gw 一律取自 AT_Command 設定 (at_type / eeprom_type)，
+ * 由 at_command_settings_init() -> Read_AT_DataFlash() 在呼叫本函式前載入完成，
+ * 這樣 "+ROLE"/"+ip="/"+MAC Address" 顯示的設定才會與實際上線的網卡設定一致。 */
 static void dm9051_atcmd_netif_config(dm9051_netif_device_t *dev)
 {
-    dev->mac_addr = dm9051_atcmd_mac;
+    dev->mac_addr = eeprom_type.macaddr;
 
-    dev->static_ip[0] = DM9051_UIP_IP0;
-    dev->static_ip[1] = DM9051_UIP_IP1;
-    dev->static_ip[2] = DM9051_UIP_IP2;
-    dev->static_ip[3] = DM9051_UIP_IP3;
+    dev->static_ip[0] = uip_ipaddr1(at_type.hostip);
+    dev->static_ip[1] = uip_ipaddr2(at_type.hostip);
+    dev->static_ip[2] = uip_ipaddr3(at_type.hostip);
+    dev->static_ip[3] = uip_ipaddr4(at_type.hostip);
 
-    dev->gateway_ip[0] = DM9051_UIP_GW0;
-    dev->gateway_ip[1] = DM9051_UIP_GW1;
-    dev->gateway_ip[2] = DM9051_UIP_GW2;
-    dev->gateway_ip[3] = DM9051_UIP_GW3;
+    dev->gateway_ip[0] = uip_ipaddr1(at_type.hostgw);
+    dev->gateway_ip[1] = uip_ipaddr2(at_type.hostgw);
+    dev->gateway_ip[2] = uip_ipaddr3(at_type.hostgw);
+    dev->gateway_ip[3] = uip_ipaddr4(at_type.hostgw);
 
-    dev->netmask_ip[0] = DM9051_UIP_MASK0;
-    dev->netmask_ip[1] = DM9051_UIP_MASK1;
-    dev->netmask_ip[2] = DM9051_UIP_MASK2;
-    dev->netmask_ip[3] = DM9051_UIP_MASK3;
+    dev->netmask_ip[0] = uip_ipaddr1(at_type.hostmask);
+    dev->netmask_ip[1] = uip_ipaddr2(at_type.hostmask);
+    dev->netmask_ip[2] = uip_ipaddr3(at_type.hostmask);
+    dev->netmask_ip[3] = uip_ipaddr4(at_type.hostmask);
 }
 
 static void platform_init(void)
@@ -106,7 +88,7 @@ static void network_init(void)
 {
     int status;
 
-    status = dm9051_uip_mh2203_demo_open(dm9051_atcmd_mac);
+    status = dm9051_uip_mh2203_demo_open(eeprom_type.macaddr);
     g_eth = dm9051_uip_mh2203_demo_eth();
 
     printf("[DM9051 uIP+ATCMD] MH2203 uIP + AT_Command start\r\n");
