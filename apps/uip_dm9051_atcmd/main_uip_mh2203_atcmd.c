@@ -96,6 +96,10 @@ static void at_command_settings_init(void)
     atcmd_show_sys_msg(0);
     atcmd_show(0);
     printf("  ------------------------------------------------------\r\n");
+
+    /* AT_Command 初始化完成，透過 AT UART (非 debug log) 送出 "ready" 確認訊息，
+     * 讓使用者知道 AT 指令介面已經可以收指令了。 */
+    atcmd_resp_atcmd_ready();
 }
 
 static void network_init(void)
