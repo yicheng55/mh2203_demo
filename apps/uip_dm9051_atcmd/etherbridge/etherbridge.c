@@ -42,6 +42,24 @@ struct tcp_bridge_state_st {
   char state;
   char served;
 } tcp_bridge_state = { 0, 0 };
+struct uip_conn *tcp_bridge_get_pending_tx_conn(void)
+{
+	uint8_t c;
+	if (!atcmd_flag || (gt_u32comRbytes == 0) || !tcp_connected)
+		return NULL;
+
+	/* TCP 透傳目前採單一送出目標：
+	 * 只回傳第一個符合條件的 ESTABLISHED conn，避免同一筆 UART 資料
+	 * 被多個 client 重複送出；若之後要支援多 client，這裡需改成輪詢或
+	 * 明確的分發策略。
+	 */
+	for(c = 0; c < UIP_CONNS; c++) {
+		if ((uip_conns[c].tcpstateflags == UIP_ESTABLISHED) &&
+		    (uip_conns[c].lport == HTONS(at_type.t_lport)))
+			return &uip_conns[c];
+	}
+	return NULL;
+}
 static uint8_t udp_bridge_tx_index;
 
 static uint8_t udp_bridge_conn_is_data(const struct uip_udp_conn *conn)
@@ -72,6 +90,10 @@ struct uip_udp_conn *udp_bridge_get_pending_tx_conn(void)
 		return NULL;
 	if ((udp_connected & UPDATE_UDP_SEND) != UPDATE_UDP_SEND)
 		return NULL;
+	/* UDP 透傳是輪詢式分發：符合條件的 conn 會依序輪到，
+	 * 方便同一筆 UART 資料送到多個 UDP 目的端；下一次會從
+	 * udp_bridge_tx_index 之後繼續找。
+	 */
 	start = udp_bridge_tx_index;
 	for(i = 0; i < UIP_UDP_CONNS; i++) {
 		c = (uint8_t)((start + i) % UIP_UDP_CONNS);
@@ -594,10 +616,11 @@ void tcp_bridge_appcall(void)
 			
 			printf("tcp send %u/%u\n", gt_comeDataUsart2, get_tcp_conn());
 			
-			if (get_tcp_conn() == gt_comeDataUsart2) {
+			if (gt_comeDataUsart2 >= get_tcp_conn()) {
 				check_tcp_conn("tcp.sent.to");
 				memset(g_u8RecData, 0, RecData_Size);
 				gt_u32comRbytes = 0;
+				gt_comeDataUsart2 = 0;
 				atcmd_flag = FALSE; //for on trans
 			}
 #endif //ATCMD_UART_RX_DOUB_BUF

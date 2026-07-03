@@ -161,11 +161,25 @@ int main(void)
         bridge_init();
         at_cmdProcess();
 
+        {
+            struct uip_conn *bridge_tcp_conn;
+
+            bridge_tcp_conn = tcp_bridge_get_pending_tx_conn();
+            if (bridge_tcp_conn != NULL) {
+                /* TCP 模式下這裡只喚醒目前選中的 conn；UART 緩衝會在
+                 * send 完成後清空，因此若沒有新的 poke，資料會暫留到下次。
+                 */
+                dm9051_uip_stack_tcp_poke(bridge_tcp_conn);
+            }
+        }
 #if UIP_UDP
         struct uip_udp_conn *bridge_udp_conn;
 
         bridge_udp_conn = udp_bridge_get_pending_tx_conn();
         if (bridge_udp_conn != NULL) {
+            /* UDP 模式保留輪詢式分發，所以這裡每次只 poke 當前選中的 conn。
+             * 送出後下一輪再接續找下一個有效 conn，讓多 client/多目的端可分批出包。
+             */
             dm9051_uip_stack_udp_poke(bridge_udp_conn);
         }
 

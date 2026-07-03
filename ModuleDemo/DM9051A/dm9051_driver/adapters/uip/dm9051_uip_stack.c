@@ -67,6 +67,15 @@ static void dm9051_uip_stack_send_if_needed(void)
     }
 }
 
+void dm9051_uip_stack_tcp_poke(struct uip_conn *conn)
+{
+    if (conn == NULL) {
+        return;
+    }
+
+    uip_poll_conn(conn);
+    dm9051_uip_stack_send_if_needed();
+}
 #if UIP_UDP
 void dm9051_uip_stack_udp_poke(struct uip_udp_conn *conn)
 {
