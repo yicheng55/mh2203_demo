@@ -16,7 +16,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdarg.h>
 
 #define DM9051_UIP_RX_BURST_MAX 8u
 
@@ -25,34 +24,10 @@
 #endif
 
 #if DM9051_UIP_DIAG
-static int dm9051_uip_diag_use_udp_printf = 0;
-
-static inline void dm9051_uip_diag_printf(const char *fmt, ...)
-{
-    va_list ap;
-    va_start(ap, fmt);
-
-    /* Link UP 後若啟用 UDP printf 診斷輸出，則：
-     * - 只有 peer 完全就緒時 (udp_printf_is_ready)，才真的透過 UDP 輸出
-     * - peer 未就緒時，日誌被丟棄 (不輸出到 UART)，避免混雜輸出 */
-    if (dm9051_uip_diag_use_udp_printf && udp_printf_is_link_up()) {
-        if (udp_printf_is_ready()) {
-            char buf[256];
-            int len = vsnprintf(buf, sizeof(buf), fmt, ap);
-            for (int i = 0; i < len && i < (int)sizeof(buf) - 1; i++) {
-                udp_printf_putchar((unsigned char)buf[i]);
-            }
-        }
-        /* 否則日誌被暫存到 udp_printf 隊列，或被丟棄 */
-    } else {
-        /* 未啟用 UDP printf，輸出到 UART (標準 printf) */
-        vprintf(fmt, ap);
-    }
-
-    va_end(ap);
-}
-
-#define DM9051_UIP_DIAG_PRINTF(...) dm9051_uip_diag_printf(__VA_ARGS__)
+/* 診斷輸出走標準 printf()，UART/UDP 切換統一交給 fputc() (見 mh2203_board.c)
+ * 依 udp_printf_is_output_mode_enabled() / udp_printf_is_ready() 集中處理，
+ * 避免此處與 fputc() 各自維護一套不一致的切換邏輯。 */
+#define DM9051_UIP_DIAG_PRINTF(...) printf(__VA_ARGS__)
 #else
 #define DM9051_UIP_DIAG_PRINTF(...) do { } while (0)
 #endif
@@ -170,13 +145,6 @@ static void dm9051_uip_stack_print_rx_burst(const char *reason,
         last_error_status = DM9051_OK;
     }
 }
-
-#if DM9051_UIP_DIAG
-void dm9051_uip_set_diag_output_udp(int enable)
-{
-    dm9051_uip_diag_use_udp_printf = enable ? 1 : 0;
-}
-#endif
 
 int dm9051_uip_stack_init(struct uip_ethernetif *eth,
                            const dm9051_netif_device_t *netif)

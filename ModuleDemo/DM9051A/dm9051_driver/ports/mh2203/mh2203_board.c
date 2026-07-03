@@ -90,9 +90,13 @@ int fputc(int ch, FILE *f)
     (void)f;
 
 #if PRINTF_DEBUG_OUTPUT == PRINTF_DEBUG_OUTPUT_UDP
-    /* 尚未有 UDP peer (udp_printf_is_ready()==0) 時退回 UART，
-     * 避免開機/連線建立階段的診斷訊息在對端連上前被吃掉。 */
-    if (udp_printf_is_ready()) {
+    /* 未啟用 UDP 輸出模式 (尚未 Link UP) 時固定走 UART。啟用後，
+     * peer 未就緒 (udp_printf_is_ready()==0) 一律捨棄字元、不退回 UART，
+     * 避免除錯輸出在 UART/UDP 之間混雜。 */
+    if (udp_printf_is_output_mode_enabled()) {
+        if (!udp_printf_is_ready()) {
+            return ch;
+        }
         if (ch == '\n') {
             udp_printf_putchar('\r');
         }
