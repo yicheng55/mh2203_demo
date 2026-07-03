@@ -28,6 +28,8 @@
 #include "httpd.h"
 #endif
 
+#include "udp_printf.h"
+
 uint8_t EthernetInitDoneFlag = 0;
 char    dhs_staus_msg[64];
 uint8_t eth_netif_linkup = 0;
@@ -92,6 +94,9 @@ void udp_appcall(void)
         dhcpc_appcall();
         break;
 #endif /* DHCPC_EN */
+    case HTONS(UDP_PRINTF_PORT): /* 除錯用 UDP printf 通道 (mh2203_board.c fputc 的輸出對端) */
+        udp_printf_appcall();
+        break;
     default:
         break;
     }

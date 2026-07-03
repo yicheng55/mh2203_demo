@@ -13,6 +13,7 @@
 #include "at_port.h"
 #include "mh2203_platform.h"
 #include "mh2203_uip_clock.h"
+#include "atcommand.h" /* g_u8RecData / gt_u32comRbytes / atcmd_flag 三件套 */
 
 #include <string.h>
 
@@ -22,14 +23,16 @@ extern int SER_PutChar(int ch);
 
 /* ------------------------------------------------------------
  * 1. UART
+ *
+ * RX 三件套 (g_u8RecData/gt_u32comRbytes/atcmd_flag) 直接沿用 atcommand.c
+ * 定義的全域變數 (対照 templates/at_port_template.c 的建議做法："最省事：
+ * 讓這三個全域仍在 atcommand.c，平台 ISR 直接填它們，atp_uart_rx_* 只是包一層
+ * 存取器")。之前誤把 ISR 寫進一份 at_port.c 私有緩衝，導致 at_cmdProcess()
+ * 讀到的 atcmd_flag 永遠是 FALSE、UART 指令沒反應——已修正為直接寫入這三個
+ * 真正的全域。
  * ------------------------------------------------------------ */
 
-#define AT_PORT_RX_BUF_SIZE 1460u /* 對齊 atcommand.h 未定義 UIP_USE_BIGDATA_SIZE 時的 RecData_Size */
-
-static char         s_rx_buf[AT_PORT_RX_BUF_SIZE];
-static unsigned int s_rx_len = 0;
-static volatile int s_rx_ready = 0;
-static int          s_irq_configured = 0;
+static int s_irq_configured = 0;
 
 static void at_port_uart_irq_enable(void)
 {
@@ -89,39 +92,40 @@ void atp_uart_putc(char c)
 
 char *atp_uart_rx_buf(void)
 {
-    return s_rx_buf;
+    return g_u8RecData;
 }
 
 unsigned int atp_uart_rx_len(void)
 {
-    return s_rx_len;
+    return gt_u32comRbytes;
 }
 
 int atp_uart_rx_ready(void)
 {
-    return s_rx_ready;
+    return atcmd_flag;
 }
 
 void atp_uart_rx_clear(void)
 {
-    memset(s_rx_buf, 0, sizeof(s_rx_buf));
-    s_rx_len = 0;
-    s_rx_ready = 0;
+    memset(g_u8RecData, 0, sizeof(g_u8RecData));
+    gt_u32comRbytes = 0;
+    atcmd_flag = FALSE;
 }
 
 /* USART2_IRQHandler 為 startup_mh22xx.s 內的 WEAK default，目前沒有其他檔案
- * override 它；在此提供簡單輪詢式 RX (逐字元 append，遇 '\n' 設 ready)，
- * 對齊 atcommand.c 原本的 g_u8RecData/gt_u32comRbytes/atcmd_flag 三件套語意。 */
+ * override 它；在此提供簡單輪詢式 RX (逐字元 append 進 g_u8RecData，遇 '\n'
+ * 設 atcmd_flag)，直接對齊 atcommand.c 原本的三件套語意，讓 at_cmdProcess()
+ * 收得到資料。 */
 void USART2_IRQHandler(void)
 {
     if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) {
         char c = (char)USART_ReceiveData(USART2);
 
-        if (s_rx_len < (sizeof(s_rx_buf) - 1u)) {
-            s_rx_buf[s_rx_len++] = c;
+        if (gt_u32comRbytes < (sizeof(g_u8RecData) - 1u)) {
+            g_u8RecData[gt_u32comRbytes++] = c;
         }
         if (c == '\n') {
-            s_rx_ready = 1;
+            atcmd_flag = TRUE;
         }
     }
 }
