@@ -93,11 +93,14 @@ void dm9051_uip_stack_udp_poke(struct uip_udp_conn *conn)
 }
 #endif
 
-static int dm9051_uip_stack_drain_rx(void)
+static int dm9051_uip_stack_drain_rx(uint16_t *last_rx_len)
 {
     uint8_t rx_burst;
 
     rx_burst = 0u;
+    if (last_rx_len != NULL) {
+        *last_rx_len = 0u;
+    }
 
     while (rx_burst < DM9051_UIP_RX_BURST_MAX) {
         uip_len = dm9051_uip_input(uip_buf, UIP_BUFSIZE);
@@ -116,6 +119,9 @@ static int dm9051_uip_stack_drain_rx(void)
             }
         }
 
+        if (last_rx_len != NULL) {
+            *last_rx_len = uip_len;
+        }
         ++rx_burst;
     }
 
@@ -129,8 +135,8 @@ static uint8_t dm9051_uip_stack_rx_pending_from_burst(int rx_burst)
 
 static void dm9051_uip_stack_print_rx_burst(const char *reason,
                                             int rx_burst,
-                                            uint8_t drain_pending)
-{
+                                            uint8_t drain_pending,
+                                            uint16_t rx_len)
     static int last_error_status = DM9051_OK;
     int rx_status;
 
@@ -222,17 +228,20 @@ void dm9051_uip_stack_poll(void)
     static uint8_t dm9051_uip_rx_drain_pending;
     int rx_burst;
     int irq_mode;
+    uint16_t rx_len;
 
     irq_mode = dm9051_uip_interrupt_mode();
     if ((irq_mode == DM9051_INPUT_MODE_POLL) ||
         (dm9051_uip_rx_drain_pending != 0u) ||
         (dm9051_uip_interrupt_take() != 0)) {
-        rx_burst = dm9051_uip_stack_drain_rx();
+        rx_len = 0u;
+        rx_burst = dm9051_uip_stack_drain_rx(&rx_len);
         dm9051_uip_rx_drain_pending =
             dm9051_uip_stack_rx_pending_from_burst(rx_burst);
         dm9051_uip_stack_print_rx_burst("rx",
                                         rx_burst,
-                                        dm9051_uip_rx_drain_pending);
+                                        dm9051_uip_rx_drain_pending,
+                                        rx_len);
 
         if ((irq_mode != DM9051_INPUT_MODE_POLL) &&
             (dm9051_uip_rx_drain_pending == 0u)) {
@@ -282,12 +291,14 @@ void dm9051_uip_stack_poll(void)
         if ((irq_mode == DM9051_INPUT_MODE_POLL) ||
             (dm9051_uip_rx_drain_pending != 0u) ||
             (dm9051_uip_interrupt_take() != 0)) {
-            rx_burst = dm9051_uip_stack_drain_rx();
+            rx_len = 0u;
+            rx_burst = dm9051_uip_stack_drain_rx(&rx_len);
             dm9051_uip_rx_drain_pending =
                 dm9051_uip_stack_rx_pending_from_burst(rx_burst);
             dm9051_uip_stack_print_rx_burst("periodic",
                                             rx_burst,
-                                            dm9051_uip_rx_drain_pending);
+                                            dm9051_uip_rx_drain_pending,
+                                            rx_len);
 
             if ((irq_mode != DM9051_INPUT_MODE_POLL) &&
                 (dm9051_uip_rx_drain_pending == 0u)) {
