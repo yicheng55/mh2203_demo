@@ -339,7 +339,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,DM9051_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_USE_DMA=1,DM9051_USE_IRQ=1,ATCMD_MH2203</Define>
+              <Define>USE_STDPERIPH_DRIVER,DM9051_UIP_PORT,DM9051_MH2203_DIAG=0,DM9051_TX_WAIT_DONE=1,DM9051_USE_DMA=1,DM9051_USE_IRQ=1</Define>
               <Undefine></Undefine>
               <IncludePath>..\USER_MH2203;..\bsp;..\..\..\Libraries\MH22xxLib\inc;..\..\..\Libraries\CMSIS\Include;..\..\..\middlewares\3rd_party\uip\inc;..\..\..\middlewares\3rd_party\uip\port\at32f415_dm9051;..\..\..\apps\uip_dm9051_example_e1\example_uip\inc;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\resolv;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\udp_printf;..\..\..\apps\uip_dm9051_atcmd\config;..\..\..\apps\uip_dm9051_atcmd\at_command;..\..\..\apps\uip_dm9051_atcmd\etherbridge;..\..\..\apps\uip_dm9051_atcmd\webserver;..\..\..\apps\uip_dm9051_atcmd\app_call;..\..\..\apps\uip_dm9051_atcmd\at_port;..\..\..\apps\uip_dm9051_example_e1\uip_app_src\Eth_app\dhcpc;..\..\..\drivers\dm9051_edriver_v1.6.1a_beta;..\port\mh2203;..\port\uip;..\dm9051_driver\core\inc;..\dm9051_driver\hal\inc;..\dm9051_driver\adapters\uip;..\dm9051_driver\ports\mh2203;..\dm9051_driver\examples\uip_mh2203_demo</IncludePath>
             </VariousControls>

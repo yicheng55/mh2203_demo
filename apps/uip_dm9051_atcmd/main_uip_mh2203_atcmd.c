@@ -90,6 +90,12 @@ static void at_command_settings_init(void)
 
     printf("[DM9051 uIP+ATCMD] AT settings loaded: role=%u baud=%lu\r\n",
            at_type.role, (unsigned long)at_type.baudrate);
+    printf("  ------------------------------------------------------\r\n");
+    /* 開機時把目前設定值透過 AT UART 印出，內容與手動下 "SHOW" 指令一致，
+     * 讓使用者一開機接上終端機就能看到目前設定，不用再手動下指令。 */
+    atcmd_show_sys_msg(0);
+    atcmd_show(0);
+    printf("  ------------------------------------------------------\r\n");
 }
 
 static void network_init(void)
