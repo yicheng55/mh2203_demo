@@ -130,10 +130,10 @@ void USART2_IRQHandler(void)
  * 2. 非揮發儲存 (NV) — word 序列化，寫在全 flash 最後一頁 (2KB)
  * ------------------------------------------------------------ */
 
-/* 256KB flash (0x08000000-0x0803FFFF)，MH22xxLib 頁大小為 2KB，
+/* 128KB flash (0x08000000-0x0801FFFF)，MH22xxLib 頁大小為 2KB，
  * 取最後一頁當設定區；dataflash.c 目前只用到 ~42 個 word，遠低於
  * 512 word 的頁容量。 */
-#define AT_NV_PAGE_ADDR   0x0803F800u
+#define AT_NV_PAGE_ADDR   0x0801F800u
 #define AT_NV_WORDS_MAX   (2048u / 4u)
 
 void atp_nv_erase(void)
