@@ -33,6 +33,7 @@ extern char reconn_addr[64];
 void bridge_init(void);
 void tcp_bridge_appcall(void);
 void udp_bridge_appcall(void);
+struct uip_udp_conn *udp_bridge_get_pending_tx_conn(void);
 void senddata(const void *data, int len);
 void recv_cmd_auto_disconnect(uint8_t state);
 

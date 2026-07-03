@@ -57,7 +57,7 @@ boolean on_trans_mode(void)
 
 boolean on_trans_out_mode(void)
 {
-	return (boolean)(tcp_connected || (udp_connected & UPDATE_UDP_SEND));
+	return (boolean)(tcp_connected || ((udp_connected & UPDATE_UDP_SEND) == UPDATE_UDP_SEND));
 }
 
 boolean atcmd_on_resp_note(void)
@@ -211,6 +211,9 @@ void tcpip_periodic_timer_watch_func(void) {
 			atcmd_resp_trans_ready(3);
 			print_trans_ready();
 			udp_connected |= UPDATE_UDP_RDY;
+			/* UDP client has a configured remote endpoint, so it can send as soon as link is ready. */
+			if ((at_type.role == ROLE_UDP_DCLIENT) || (at_type.role == ROLE_UDP_SCLIENT))
+				udp_connected |= UPDATE_UDP_CONNECTED;
 		} 
 //		else {
 //			printf("Link down state\r\n");
@@ -243,6 +246,7 @@ void atcmd_tcpip_udplport(void)
 		
 		atcmd_resp_atcmd_ready();
 		atcmd_resp_trans_ready(9);
+		udp_connected = UPDATE_UDP_RDY;
 
 		UDPSrvConnFlag = 1;
 //		check_DM9051_link = 1;

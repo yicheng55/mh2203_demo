@@ -11,6 +11,7 @@
 #include "etherbridge.h"
 #include "uip_keepalive.h"
 #include "dm9051_uip.h" /* dm9051_uip_output()，取代 AT32 tapdev_send() */
+#include "udp_printf.h"
 
 /* tapdev_send(): 原本呼叫 AT32 tapdev.c 把目前 uip_buf/uip_len 送出；
  * MH2203 版改走既有 dm9051_uip adapter 的輸出 API (adapter 本身不動)。 */
@@ -41,6 +42,46 @@ struct tcp_bridge_state_st {
   char state;
   char served;
 } tcp_bridge_state = { 0, 0 };
+static uint8_t udp_bridge_tx_index;
+
+static uint8_t udp_bridge_conn_is_data(const struct uip_udp_conn *conn)
+{
+	if (conn == NULL)
+		return 0;
+	if (conn->lport != HTONS(at_type.u_lport))
+		return 0;
+	if (HTONS(conn->lport) == UDP_PRINTF_PORT)
+		return 0;
+	return (conn->rport != 0) ? 1u : 0u;
+}
+
+static uint8_t count_udp_bridge_tx_conn(void)
+{
+	uint8_t c, n = 0;
+	for(c = 0; c < UIP_UDP_CONNS; c++) {
+		if (udp_bridge_conn_is_data(&uip_udp_conns[c]))
+			n++;
+	}
+	return n;
+}
+
+struct uip_udp_conn *udp_bridge_get_pending_tx_conn(void)
+{
+	uint8_t c, i, start;
+	if (!atcmd_flag || (gt_u32comRbytes == 0))
+		return NULL;
+	if ((udp_connected & UPDATE_UDP_SEND) != UPDATE_UDP_SEND)
+		return NULL;
+	start = udp_bridge_tx_index;
+	for(i = 0; i < UIP_UDP_CONNS; i++) {
+		c = (uint8_t)((start + i) % UIP_UDP_CONNS);
+		if (udp_bridge_conn_is_data(&uip_udp_conns[c])) {
+			udp_bridge_tx_index = (uint8_t)((c + 1u) % UIP_UDP_CONNS);
+			return &uip_udp_conns[c];
+		}
+	}
+	return NULL;
+}
 
 /*
  * uart_tx(): Move ethernet data to UART1 buffer
@@ -612,6 +653,9 @@ void udp_bridge_appcall(void)
 						udp_connected |= UPDATE_UDP_CONNECTED; //udp_connected = TRUE;
 						printf("Equal : lport %u and packet's destport %u\r\n", at_type.u_lport, pktdestport);
 						printf("[Operate]: udp_connected |= UPDATE_UDP_CONNECTED\r\n");
+						/* UDP server replies must target the client that sent the first packet. */
+						uip_ipaddr_copy(uip_udp_conn->ripaddr, UDPBUF->srcipaddr);
+						uip_udp_conn->rport = UDPBUF->srcport;
 						
 						/* role 3 interest in the connect-in client, jos
 						 *
@@ -707,13 +751,18 @@ void udp_bridge_appcall(void)
 	} 
 	
 	//--- UART2 income data ---
-	if(atcmd_flag && (udp_connected & UPDATE_UDP_SEND)) { //UDP
+	if(atcmd_flag && ((udp_connected & UPDATE_UDP_SEND) == UPDATE_UDP_SEND)) { //UDP
+		printf("[UART->ETH] rx_len=%u dst=%d.%d.%d.%d:%u role=%u\r\n",
+			gt_u32comRbytes,
+			uip_ipaddr1(uip_udp_conn->ripaddr), uip_ipaddr2(uip_udp_conn->ripaddr),
+			uip_ipaddr3(uip_udp_conn->ripaddr), uip_ipaddr4(uip_udp_conn->ripaddr),
+			HTONS(uip_udp_conn->rport), at_type.role);
 	
 	#if 1
 //		printf("\r\n[DBG --- UART2 income data --- udp_connected 0x%x ] To Eth-Tx.\r\n", udp_connected);
 
 		recv_cmd_auto_disconnect(ROLE_UDP_SCLIENT);// reveive +++ clear connect table
-		if (!(udp_connected & UPDATE_UDP_SEND))
+		if ((udp_connected & UPDATE_UDP_SEND) != UPDATE_UDP_SEND)
 			//NEXT, be set to UPDATE_UDP_SEND again.
 			; //printf("[DBG --- udp_connected disconnect --- udp_connected 0x%x ]\r\n", udp_connected);
 		else
@@ -749,7 +798,8 @@ void udp_bridge_appcall(void)
 	
 				if((at_type.trans_len != 0) && gt_u32comRbytes >= at_type.trans_len){
 
-					uip_send(g_u8RecData, at_type.trans_len);	
+					printf("[UART->ETH] send(fixed) len=%u\r\n", at_type.trans_len);
+					uip_send(g_u8RecData, at_type.trans_len);
 					gt_u32comRbytes = 0;
 					atcmd_flag = FALSE; //for udp on trans
 
@@ -780,9 +830,14 @@ void udp_bridge_appcall(void)
 		#else
 					check_udp_conn("to send2");
 
+					printf("[UART->ETH] send(stream) len=%u -> %d.%d.%d.%d:%u\r\n",
+						gt_u32comRbytes,
+						uip_ipaddr1(uip_udp_conn->ripaddr), uip_ipaddr2(uip_udp_conn->ripaddr),
+						uip_ipaddr3(uip_udp_conn->ripaddr), uip_ipaddr4(uip_udp_conn->ripaddr),
+						HTONS(uip_udp_conn->rport));
 					uip_send(g_u8RecData, gt_u32comRbytes);
 					gt_comeDataUsart2++;
-					printf("udp send %u/%u\n", gt_comeDataUsart2, get_udp_conn()); //,check_udp_conn("send")
+					printf("udp send %u/%u\n", gt_comeDataUsart2, count_udp_bridge_tx_conn()); //,check_udp_conn("send")
 					/* want to send to every udp connection */
 					
 					printf("my.send.enum:check.upd_conn[.] [%d/%d]\r\n", //%d:%d:%d:%d rport %u lport %u 
@@ -791,9 +846,11 @@ void udp_bridge_appcall(void)
 									//uip_ipaddr3(uip_udp_conns[c].ripaddr), uip_ipaddr4(uip_udp_conns[c].ripaddr), 
 									//HTONS(uip_udp_conns[c].rport), HTONS(uip_udp_conns[c].lport),
 				
-					if (get_udp_conn() == gt_comeDataUsart2) { //,check_udp_conn("my.send.enum")
+					if (gt_comeDataUsart2 >= count_udp_bridge_tx_conn()) { //,check_udp_conn("my.send.enum")
 						memset(g_u8RecData, 0, RecData_Size);
 						gt_u32comRbytes = 0;
+						gt_comeDataUsart2 = 0;
+						udp_bridge_tx_index = 0;
 						atcmd_flag = FALSE; //for udp on trans
 					}
 		#endif // ATCMD_UART_RX_DOUB_BUF

@@ -162,6 +162,13 @@ int main(void)
         at_cmdProcess();
 
 #if UIP_UDP
+        struct uip_udp_conn *bridge_udp_conn;
+
+        bridge_udp_conn = udp_bridge_get_pending_tx_conn();
+        if (bridge_udp_conn != NULL) {
+            dm9051_uip_stack_udp_poke(bridge_udp_conn);
+        }
+
         if (udp_printf_has_pending()) {
             dm9051_uip_stack_udp_poke(udp_printf_get_conn());
         }
