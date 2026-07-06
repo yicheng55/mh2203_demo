@@ -1,4 +1,5 @@
 #include "uip_keepalive.h"
+#include "atcommand.h"
 
 struct keepalive_function_type ka_type;
 

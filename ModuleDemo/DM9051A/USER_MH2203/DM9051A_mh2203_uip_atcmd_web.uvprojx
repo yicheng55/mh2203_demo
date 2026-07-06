@@ -790,6 +790,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>at_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\port\at_port.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1997,16 +2002,6 @@
               <FileName>uip_mh2203_reset.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\compat\uip_mh2203\uip_mh2203_reset.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>compat/uip_mh2203</GroupName>
-          <Files>
-            <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\compat\uip_mh2203\uart.c</FilePath>
             </File>
             <File>
               <FileName>uip_keepalive.c</FileName>

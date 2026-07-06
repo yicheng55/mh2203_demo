@@ -2,6 +2,19 @@
 #include "uip_arp.h"
 #include "etherbridge.h"
 #include "dataflash.h"
+#include <ctype.h>
+
+#define IPBUF ((struct ethip_hdr *)&uip_buf[0])
+#define UDPBUF ((struct uip_udpip_hdr *)&uip_buf[UIP_LLH_LEN])
+
+struct arp_entry {
+  u16_t ipaddr[2];
+  struct uip_eth_addr ethaddr;
+  u8_t time;
+};
+
+static struct arp_entry arp_table[UIP_ARPTAB_SIZE];
+static u8_t arptime;
 
 uint8_t arp_count;
 
