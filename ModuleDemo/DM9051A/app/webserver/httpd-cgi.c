@@ -48,15 +48,19 @@
 #include "includes.h"
 #include "uip.h"
 #include "psock.h"
-#include "webopts.h" //20240510.Joseph
+#include "webopts.h"
 #include "httpd.h"
 #include "httpd-cgi.h"
 #include "httpd-fs.h"
+#include "uip_arp.h"
 
 #include <stdio.h>
 #include <string.h>
 #include "atcommand.h"
 #include "etherbridge.h"
+
+extern char dhs_staus_msg[128];
+extern char reconn_addr[64];
 
 extern struct at_funcation at_show;
 extern struct eeprom_funcation eeprom_show;

@@ -6,6 +6,7 @@
  * to resolve platform HAL calls without modifying internal logic. */
 
 #include "at_port.h"
+#include "timer.h"
 
 /* Version string for MH2203 port */
 #define IPSPP_VERSION "MH2203 DM9051 uIP ATCMD V1.0"

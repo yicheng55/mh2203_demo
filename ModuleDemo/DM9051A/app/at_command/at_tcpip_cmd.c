@@ -10,6 +10,8 @@
 #include "DM9051.h"
 #include "at_port.h"
 
+char dhs_staus_msg[128];
+
 extern uint8_t eth_netif_linkup;
 
 void tcpip_periodic_timer_watch_func(void);

@@ -3,11 +3,12 @@
 
 #include "atcommand.h"
 
-#define BUF_NO0 0
-#define BUF_NO1 1
+typedef enum {BUF_NO0 = 0, BUF_NO1 = 1} BUF_NO;
 
 extern uint16_t u_txlen;
 extern uint8_t uartTXbuf1[];
+extern char reconn_addr[64];
+extern uint8_t EthernetInitDoneFlag;
 
 void uart_tx(uint8_t flag);
 void bridge_init(void);

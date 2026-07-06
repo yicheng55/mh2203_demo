@@ -16,9 +16,10 @@
 uint16_t u_txlen = 0;
 uint8_t uartTXbuf1[TransData_Size];
 
-BUF_NO Free_Buf_Now;
-BUF_NO Full_Buf_Now;
+BUF_NO Free_Buf_Now = BUF_NO0;
+BUF_NO Full_Buf_Now = BUF_NO0;
 boolean Buf_Ok;
+uint8_t EthernetInitDoneFlag = 0;
 
 char reconn_addr[64];
 char reconn_msg_tmp[] = {"Config Mode~~~!!!"};
@@ -378,9 +379,9 @@ void bridge_init(void)
 
 		if((at_type.role == 0) || (at_type.role == 1) || (at_type.role == 2))
 		{
-			AT_USART_DMA_RxToggle(2920);
+			atp_uart_rx_clear();
 		}else{
-			AT_USART_DMA_RxToggle(1460);
+			atp_uart_rx_clear();
 		}
 
 		strcpy((char *)reconn_addr, reconn_msg_tmp);

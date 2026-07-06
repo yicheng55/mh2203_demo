@@ -256,3 +256,8 @@ void atcmd_version(void)
 {
 		atcmd_resp_cmd(IPSPP_VERSION);
 }
+
+void atcmd_ready(void)
+{
+	atcmd_resp_cmd("OK");
+}
