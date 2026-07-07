@@ -232,7 +232,9 @@ void recv_cmd_auto_disconnect(uint8_t state)
 {
 		uint8_t c;
 		void *tmp_buf;
-	
+		char cmp_buf[8];
+		uint8_t cmp_len;
+
 		if(state == UIP_PROTO_TCP){
 			tmp_buf = uip_appdata;
 		}else if(state == ROLE_UDP_SCLIENT){
@@ -246,9 +248,17 @@ void recv_cmd_auto_disconnect(uint8_t state)
 			tmp_buf = g_u8RecData;
 #endif //ATCMD_UART_RX_DOUB_BUF
 		}
-		
+
+		/* 去除結尾 \r/\n 後再比對，避免因終端機只送 CR 或只送 LF 而誤判非 +++ */
+		strncpy(cmp_buf, (char *)tmp_buf, sizeof(cmp_buf) - 1);
+		cmp_buf[sizeof(cmp_buf) - 1] = '\0';
+		cmp_len = strlen(cmp_buf);
+		while (cmp_len && ((cmp_buf[cmp_len - 1] == '\r') || (cmp_buf[cmp_len - 1] == '\n'))) {
+			cmp_buf[--cmp_len] = '\0';
+		}
+
 		//receive +++ clear tcp connection table
-		if((!strcasecmp(tmp_buf, "+++")) || (!strcasecmp(tmp_buf, "+++\r\n"))/* || (!strcasecmp(tmp_buf, "disconn"))*/)
+		if(!strcasecmp(cmp_buf, "+++")/* || (!strcasecmp(tmp_buf, "disconn"))*/)
 		{
 				if(tcp_connected == TRUE){ //current tcp connection
 					check_tcp_conn("tcp.still");
@@ -517,8 +527,13 @@ void tcp_bridge_appcall(void)
 	
 	//--- UART1 income data ---
 	if(atcmd_flag && tcp_connected) { //TCP
-		if((at_type.trans_len != 0) && gt_u32comRbytes >= at_type.trans_len){
-			uip_send(g_u8RecData, at_type.trans_len);	
+
+		recv_cmd_auto_disconnect(ROLE_UDP_SCLIENT); //收到 UART "+++" 時觸發斷線流程(比對 g_u8RecData)
+
+		if (!atcmd_flag) {
+			; //是 +++，已排程斷線，本筆不當一般資料送出
+		} else if((at_type.trans_len != 0) && gt_u32comRbytes >= at_type.trans_len){
+			uip_send(g_u8RecData, at_type.trans_len);
 			atcmd_flag = FALSE; //for on trans
 			gt_u32comRbytes = 0;
 		}else if(at_type.trans_len == 0){
@@ -550,10 +565,11 @@ void tcp_bridge_appcall(void)
 			
 			printf("tcp send %u/%u\n", gt_comeDataUsart2, get_tcp_conn());
 			
-			if (get_tcp_conn() == gt_comeDataUsart2) {
+			if (get_tcp_conn() <= gt_comeDataUsart2) {
 				check_tcp_conn("tcp.sent.to");
 				memset(g_u8RecData, 0, RecData_Size);
 				gt_u32comRbytes = 0;
+				gt_comeDataUsart2 = 0; //歸零：下一筆廣播重新從 0 計數，避免重複送出
 				atcmd_flag = FALSE; //for on trans
 			}
 #endif //ATCMD_UART_RX_DOUB_BUF
@@ -783,9 +799,10 @@ void udp_bridge_appcall(void)
 									//uip_ipaddr3(uip_udp_conns[c].ripaddr), uip_ipaddr4(uip_udp_conns[c].ripaddr), 
 									//HTONS(uip_udp_conns[c].rport), HTONS(uip_udp_conns[c].lport),
 				
-					if (get_udp_conn() == gt_comeDataUsart2) { //,check_udp_conn("my.send.enum")
+					if (get_udp_conn() <= gt_comeDataUsart2) { //,check_udp_conn("my.send.enum")
 						memset(g_u8RecData, 0, RecData_Size);
 						gt_u32comRbytes = 0;
+						gt_comeDataUsart2 = 0; //歸零：下一筆廣播重新從 0 計數，避免重複送出
 						atcmd_flag = FALSE; //for udp on trans
 					}
 		#endif // ATCMD_UART_RX_DOUB_BUF
