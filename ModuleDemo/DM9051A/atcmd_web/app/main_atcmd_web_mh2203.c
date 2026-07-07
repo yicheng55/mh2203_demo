@@ -3,8 +3,11 @@
 #include "atcommand.h"
 #include "uip_init.h"
 #include "uip.h"
+#include "uip_arp.h"
+#include "tapdev.h"
 #include "etherbridge.h"
 #include "httpd.h"
+#include "udp_printf.h"
 
 #include <stdio.h>
 
@@ -25,6 +28,7 @@ static void atcmd_web_apply_macaddr(void)
     uip_ethaddr.addr[4] = eeprom_type.macaddr[4];
     uip_ethaddr.addr[5] = eeprom_type.macaddr[5];
 }
+
 static void atcmd_web_at_init(void)
 {
     uint8_t mflag;
@@ -44,6 +48,11 @@ static void atcmd_web_at_init(void)
 
     atcmd_resp_boot();
     atcmd_version();
+
+    /* 開機加入 show 訊息顯示 */
+    atcmd_show_sys_msg(0);
+    atcmd_show(0);
+
     arp_need_new();
     dns_tag_new();
     atcmd_web_apply_macaddr();
@@ -56,6 +65,10 @@ int main(void)
 
     tcpip_init();
 
+#if UIP_UDP
+    udp_printf_init();
+#endif
+
 #ifdef HTTP_SERVER_SUPPORT
     httpd_init();
 #endif
@@ -63,6 +76,19 @@ int main(void)
     while (1) {
         bridge_init();
         tcpip_process();
+
+#if UIP_UDP
+        udp_printf_set_link(eth_netif_linkup != 0u);
+        if (udp_printf_has_pending()) {
+            uip_udp_periodic_conn(udp_printf_get_conn());
+            if (uip_len > 0u) {
+                uip_arp_out();
+                tapdev_send();
+                udp_printf_output_done();
+            }
+        }
+#endif
+
         at_cmdProcess();
     }
 }

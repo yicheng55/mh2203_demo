@@ -9,6 +9,7 @@
 #include "atcommand.h"
 #include "etherbridge.h"
 #include "httpd.h"
+#include "udp_printf.h"
 
 uint8_t EthernetInitDoneFlag = 0;
 char dhs_staus_msg[64];
@@ -69,6 +70,9 @@ void udp_appcall(void)
 				dhcpc_appcall();
 			break;
 #endif //DHCPC_EN
+		case HTONS(UDP_PRINTF_PORT):
+				udp_printf_appcall();
+			break;
 		default:
 			break;
 	}
