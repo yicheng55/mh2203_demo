@@ -348,7 +348,7 @@ extern struct arp_entry arp_table[UIP_ARPTAB_SIZE];
 
 void display_arp(char *head)
 {
-    printf("%s:\r\n", head);
+    printf("%s:\n", head);
 #if 0
 	int k, i;
     for(k = 0; k < UIP_ARPTAB_SIZE; ++k) {
@@ -408,7 +408,7 @@ uint8_t arp_need(void) //boolean
 
     if(i == UIP_ARPTAB_SIZE) {
 	  display_arp("NEED arp not FOUND");
-	  printf("NEED arp for %d.%d.%d.%d\r\n", uip_ipaddr1(IPBUF->destipaddr), uip_ipaddr2(IPBUF->destipaddr),
+	  printf("NEED arp for %d.%d.%d.%d\n", uip_ipaddr1(IPBUF->destipaddr), uip_ipaddr2(IPBUF->destipaddr),
 				uip_ipaddr3(IPBUF->destipaddr), uip_ipaddr4(IPBUF->destipaddr));
       //if (_arp_need_limit()) //1; or 0;
 	  return 1;

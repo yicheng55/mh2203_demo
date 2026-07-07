@@ -84,7 +84,6 @@ int main(void)
             if (uip_len > 0u) {
                 uip_arp_out();
                 tapdev_send();
-                udp_printf_output_done();
             }
         }
 #endif

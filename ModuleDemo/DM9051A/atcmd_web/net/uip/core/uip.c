@@ -1253,7 +1253,7 @@ uip_process(u8_t flag)
 						/**< set new client info */
 						uip_udp_conn->rport=UDPBUF->srcport;
 						memcpy(uip_udp_conn->ripaddr, UDPBUF->srcipaddr, sizeof(uip_ipaddr_t ) );
-					printf("2. UDP connect chk\r\n");
+					printf("2. UDP connect chk\n");
 				}
       goto udp_found;
     }
@@ -1270,7 +1270,7 @@ uip_process(u8_t flag)
 				 uip_udp_conn->lport=UDPBUF->destport;	
 				 uip_udp_conn->rport=UDPBUF->srcport;
 				 memcpy(uip_udp_conn->ripaddr, UDPBUF->srcipaddr, sizeof(uip_ipaddr_t ) );
-				 printf("3. UDP connect chk\r\n");	
+				 printf("3. UDP connect chk\n");
          goto udp_found;					
 				} 					
    		

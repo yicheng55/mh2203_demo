@@ -6,6 +6,7 @@
 #include "../../../dm9051_driver/examples/uip_mh2203_demo/dm9051_uip_mh2203_demo.h"
 
 #include "uip.h"
+#include "udp_printf.h"
 
 #include <string.h>
 
@@ -54,6 +55,10 @@ void tapdev_send(void)
     }
 
     (void)dm9051_uip_output(uip_buf, uip_len);
+
+    /* 每一次實際送出的幀都要在此解鎖，否則 udp_printf 只要送出過一次
+     * 就會卡在 output_active=1，之後所有 printf() 都被吃掉。 */
+    udp_printf_output_done();
 }
 
 uint8_t DM9051_Read_Reg(uint8_t reg)

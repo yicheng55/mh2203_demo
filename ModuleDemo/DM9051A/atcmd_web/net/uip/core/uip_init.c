@@ -217,7 +217,7 @@ rep:
 			uip_len = tapdev_read();
 			
 			if (uip_len > 850)
-				printf("rxlen %u\r\n", uip_len);
+				printf("rxlen %u\n", uip_len);
 			if (uip_len > 0) 
 			{
 				//printf("tcpip_ethtype_ip BUF->type %x \r\n", BUF->type);
@@ -401,7 +401,7 @@ static void tcpip_periodic_timer(void)
 #if 0
 					if (!startup_duration_pull()) {
 #endif
-						printf("%s\r\n", "link up");
+						printf("%s\n", "link up");
 						tcpip_periodic_timer_watch_func();
 #if 0
 //						.atcmd_resp_cmd(" ");
@@ -424,7 +424,7 @@ static void tcpip_periodic_timer(void)
 					if (at_type.role == 3 || at_type.role == 5)
 						; //Frank test, Off/On IPSPP to quick into link-down if role 3
 					else
-						printf("%s\r\n", "link down");
+						printf("%s\n", "link down");
 
 					if (eth_start_ethdown_display == 0) {
 
