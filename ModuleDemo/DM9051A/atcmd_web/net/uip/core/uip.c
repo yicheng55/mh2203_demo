@@ -912,11 +912,11 @@ uip_process(u8_t flag)
 //				  printf("2. _send %x flg %x uip_connr->len %x\r\n", uip_slen, flag, uip_connr->len);	 
 //				 }
 #endif
-				if(at_type.role == ROLE_TCP_SERVER){
+				if((at_type.role == ROLE_TCP_SERVER) && !(uip_flags & UIP_ABORT)){
 					 uip_flags = UIP_POLL;
            //printf("2. appsend %x \r\n", uip_flags);
-				 }	
-				 
+				 }
+
 				goto appsend;
       }
     }
