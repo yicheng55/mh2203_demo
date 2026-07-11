@@ -11,6 +11,7 @@
 #include "etherbridge.h"
 #include "dataflash.h"
 #include "trans_level2.h"
+#include "udp_printf.h"
 
 extern struct eeprom_funcation eeprom_show;
 
@@ -88,6 +89,7 @@ void atcmd_resp_establish(void) {
 
 void atcmd_resp_atcmd_ready(void) {
 	atcmd_resp_cmd(TRANSLEVEL_STR[2]);
+	udp_printf_set_output_mode(1);
 }
 
 void atcmd_resp_trans_ready(uint8_t id) {
@@ -104,6 +106,7 @@ void print_trans_ready(void) {
 
 void atcmd_ready(void) {
 	atcmd_resp_cmd(TRANSLEVEL_STR[4]);
+	udp_printf_set_output_mode(1);
 }
 void atcmd_resp_rst(void) {
 	atcmd_resp_cmd(TRANSLEVEL_STR[5]);

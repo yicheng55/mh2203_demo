@@ -19,6 +19,7 @@ static struct uip_udp_conn *udp_printf_conn;
 static int udp_printf_link_up;
 static int udp_printf_peer_active;
 static int udp_printf_output_active;
+static int udp_printf_output_mode;
 static uip_ipaddr_t udp_printf_peer_addr;
 static u16_t udp_printf_peer_port;
 
@@ -288,6 +289,16 @@ struct uip_udp_conn *udp_printf_get_conn(void)
 void udp_printf_output_done(void)
 {
     udp_printf_output_active = 0;
+}
+
+void udp_printf_set_output_mode(int enable)
+{
+    udp_printf_output_mode = enable ? 1 : 0;
+}
+
+int udp_printf_is_output_mode_enabled(void)
+{
+    return udp_printf_output_mode;
 }
 
 int udp_printf_is_reserved_port(uint16_t port)
