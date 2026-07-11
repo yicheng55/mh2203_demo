@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(grep -c \"mh20xx_\" \"D:\\\\prg\\\\davicom\\\\mh2xxxx_proj\\\\mh2203_demo\\\\ModuleDemo\\\\DM9051A\\\\USER\\\\DM9051A_spipro_mh2203.uvprojx\")",
+      "PowerShell(grep \"startup_mh\\\\|system_mh\\\\|mh22xx_misc\\\\|misc\\\\.c\\\\|Cortex-M3\\\\|ARMCM3\" \"D:\\\\prg\\\\davicom\\\\mh2xxxx_proj\\\\mh2203_demo\\\\ModuleDemo\\\\DM9051A\\\\USER\\\\DM9051A_spipro_mh2203.uvprojx\")",
+      "PowerShell(head -20)",
+      "Bash(ls \"D:\\\\prg\\\\davicom\\\\mh2xxxx_proj\\\\mh2030_demo\\\\ModuleDemo\\\\DM9051A\\\\dm9051_driver\\\\ports\\\\\" 2>/dev/null && ls \"D:\\\\prg\\\\davicom\\\\mh2xxxx_proj\\\\mh2203_demo\\\\ModuleDemo\\\\DM9051A\\\\dm9051_driver\\\\ports\\\\\" 2>/dev/null)",
+      "Bash(grep -oE \"\\\\.\\\\\\\\\\\\\\\\USER[^;<]*|\\\\.;|;\\\\.;|>\\\\.<|\\\\\\\\\\\\\\\\USER_MH2203\")"
+    ]
+  }
+}

@@ -20,7 +20,7 @@ void udp_printf_set_link(int link_up);
 int udp_printf_is_link_up(void);
 int udp_printf_is_ready(void);
 /* 全域除錯輸出模式開關：enable=1 時 fputc() 改走 UDP printf (peer 未就緒時捨棄字元，
- * 不退回 UART)，enable=0 時固定走 UART。由應用層在合適時機 (例如 Link UP) 呼叫切換。 */
+ * 不退回 UART)，enable=0 時固定走 UART。由應用層在 AT command ready 回覆完成後切換。 */
 void udp_printf_set_output_mode(int enable);
 int udp_printf_is_output_mode_enabled(void);
 void udp_printf_status_uart(const char *msg);
